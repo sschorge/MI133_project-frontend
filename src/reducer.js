@@ -2,12 +2,16 @@ import {
     //actions from ./actions
     ACTION1,
     SET_REGISTRATION,
-    RESET_STATE
+    RESET_STATE,
+    SET_CREATE_TRIP
     } from './actions'
     
     const initialState = () => ({
         user:'',
-        registration:false,
+        ui:{
+            registration:false,
+            create_trip:false
+        }
        
     })
     
@@ -19,6 +23,11 @@ import {
     
                 return {
                     ...state,registration:true
+                }
+            }
+            case SET_CREATE_TRIP:{
+                return {
+                    ...state, create_trip:true
                 }
             }
             case RESET_STATE:{

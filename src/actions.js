@@ -8,3 +8,6 @@ export const set_registration = () => ({type: SET_REGISTRATION})
 
 export const RESET_STATE = 'RESET_STATE'
 export const reset_state = () => ({type: RESET_STATE})
+
+export const SET_CREATE_TRIP = 'SET_CREATE_TRIP'
+export const set_create_trip = () => ({type: SET_CREATE_TRIP})

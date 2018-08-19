@@ -1,13 +1,11 @@
 import React,{Component} from 'react';
-import Menue from './Menue';
+import CreateTrip from './Create_Trip';
 import './App.css';
 import { connect } from 'react-redux';
 import Register from './Register';
 
 class App extends Component {
-//  constructor(){
-//    super();
-//  }
+
   render() {
     const {user} = this.props;
     const {registration} = this.props;
@@ -19,7 +17,7 @@ class App extends Component {
       {!registration ?
         <div>
           <h4>Welcome {user}</h4>
-          <Menue/> 
+          <CreateTrip/> 
           </div>:
         false
       }
@@ -30,7 +28,7 @@ class App extends Component {
 function mapStateToProps(state){
   return {
     user: state.user,
-    registration: state.registration
+    registration: state.registration,
   };
 }
 export default connect(mapStateToProps)(App);
