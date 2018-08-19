@@ -9,5 +9,5 @@ export const set_registration = () => ({type: SET_REGISTRATION})
 export const RESET_STATE = 'RESET_STATE'
 export const reset_state = () => ({type: RESET_STATE})
 
-export const SET_CREATE_TRIP = 'SET_CREATE_TRIP'
-export const set_create_trip = () => ({type: SET_CREATE_TRIP})
+export const SET_HIDE_MENUE = 'SET_HIDE_MENUE'
+export const set_hide_menue = () => ({type: SET_HIDE_MENUE})

@@ -3,14 +3,14 @@ import {
     ACTION1,
     SET_REGISTRATION,
     RESET_STATE,
-    SET_CREATE_TRIP
+    SET_HIDE_MENUE
     } from './actions'
     
     const initialState = () => ({
         user:'',
         ui:{
             registration:false,
-            create_trip:false
+            hide_menue:false
         }
        
     })
@@ -25,9 +25,9 @@ import {
                     ...state,registration:true
                 }
             }
-            case SET_CREATE_TRIP:{
+            case SET_HIDE_MENUE:{
                 return {
-                    ...state, create_trip:true
+                    ...state, hide_menue:true
                 }
             }
             case RESET_STATE:{

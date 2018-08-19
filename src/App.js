@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import CreateTrip from './Create_Trip';
+import Trips from './Trips'
 import './App.css';
 import { connect } from 'react-redux';
 import Register from './Register';
@@ -16,8 +16,8 @@ class App extends Component {
       
       {!registration ?
         <div>
-          <h4>Welcome {user}</h4>
-          <CreateTrip/> 
+          <h4>Welcome {user}</h4> 
+          <Trips/>
           </div>:
         false
       }

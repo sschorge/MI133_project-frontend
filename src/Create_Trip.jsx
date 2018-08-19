@@ -1,25 +1,14 @@
 import React from 'react'
-import { 
-    set_create_trip,
-    reset_state
-} from './actions'
 import { connect } from 'react-redux';
 
 class CreateTrip extends React.Component {
     constructor() {
         super()
-        this.handleClick = (val)=>()=>{this.props.dispatch(set_create_trip())}
         this.handleSubmit = event => {};
-        this.resetState = ()=>{this.props.dispatch(reset_state())}
     }
 
     render() {
-        //const {width, height} = this.props
-        const {create_trip} = this.props;
-
-        return <div className="CreateTrip">
-      {create_trip ?
-        <div>
+         return <div className="CreateTrip">
           <h4>Create a Trip</h4>
           <form onSubmit={this.handleSubmit}>
             <div>
@@ -50,19 +39,12 @@ class CreateTrip extends React.Component {
 
             <div className="row">
                 <input type="submit" value="Create Trip"/>
-
-                <input type="button" value="cancel" onClick={this.resetState}/>
             </div>
         </form>
-          
-          </div>:
-        <button onClick={this.handleClick()}> create </button>
-      }
+          </div>
 
-
-            
-        </div>
     }
+
 }
 
 function mapStateToProps(state){
