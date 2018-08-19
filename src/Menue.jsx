@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { action1 } from './actions'
 
 export default class Menue extends React.Component {
