@@ -6,7 +6,7 @@ import {
     reset_state
     } from './actions'
 import CreateTrip from './Create_Trip';
-    
+import './App.css';
 
 class Trips extends React.Component {
     constructor() {
@@ -38,6 +38,19 @@ class Trips extends React.Component {
             this.props.dispatch(set_hide_menue())  
         };
 
+        this._start_trip = () => {
+            this.setState({
+                start_trip:true
+            })
+            this.props.dispatch(set_hide_menue())  
+        }
+
+        this._end_trip = () => {
+            this.setState({
+                end_trip:true
+            })
+            this.props.dispatch(set_hide_menue()) 
+        }
         
         this._back = () => {
             this.setState({
@@ -52,20 +65,21 @@ class Trips extends React.Component {
    
     createTable = () => {
         let table = []
-    
+        let tbody = []
+        table.push(<tr><td>Date</td><td>Location</td><td>Member</td><td>Join</td></tr>)
         // Outer loop to create parent
-        for (let i = 0; i < 3; i++) {
-          let children = []
+        for (let i = 0; i < 5; i++) {
+          let children = []        
           //Inner loop to create children
-          for (let j = 0; j < 5; j++) {
+          for (let j = 0; j < 3; j++) {
             children.push(<td>{`Column ${j + 1}`}</td>)
           }
-          //Create the parent and add the children
+          children.push(<button>Join Trip</button>)
           table.push(<tr>{children}</tr>)
         }
-        return table
-      }
-    
+        tbody.push(<tbody>{table}</tbody>)
+        return tbody
+      }   
  
     render() {
         const {email, nickname, password, retypedPassword, lastValidation} = this.state
@@ -95,8 +109,8 @@ class Trips extends React.Component {
             <div>
                 {this.state.sign_trip ?
                     <div>
-                    <h4>sign a triiipp</h4>
-                    <table>
+                    <h4>Sign into a Trip</h4>
+                    <table id="triptable">
                         {this.createTable()}
                     </table>
                     </div>
