@@ -66,7 +66,7 @@ class Trips extends React.Component {
     createTable = () => {
         let table = []
         let tbody = []
-        table.push(<tr><td>Date</td><td>Location</td><td>Member</td><td>Join</td></tr>)
+        tbody.push(<tr><td>Date</td><td>Location</td><td>Member</td><td>Join</td></tr>)
         // Outer loop to create parent
         for (let i = 0; i < 5; i++) {
           let children = []        
@@ -75,10 +75,10 @@ class Trips extends React.Component {
             children.push(<td>{`Column ${j + 1}`}</td>)
           }
           children.push(<button>Join Trip</button>)
-          table.push(<tr>{children}</tr>)
+          tbody.push(<tr>{children}</tr>)
         }
-        tbody.push(<tbody>{table}</tbody>)
-        return tbody
+        table.push(<tbody>{tbody}</tbody>)
+        return table
       }   
  
     render() {
