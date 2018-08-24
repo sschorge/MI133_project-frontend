@@ -20,3 +20,7 @@
 #triptable{
   margin: 0px auto;
 }
+
+#map {
+	height: 100%;
+}
