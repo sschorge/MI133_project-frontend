@@ -62,21 +62,44 @@ class Trips extends React.Component {
             this.props.dispatch(reset_state())
         } 
     }
-   
+    componentDidMount() {
+        fetch('http://rcpoonkk8vbqkyiw.myfritz.net:3000/trips/17')
+          .then(response => {return response.json()})
+          .then(data => {this.setState({ data }),console.log({data})});
+          
+      }
     createTable = () => {
+        console.log("createTable")
+         const {data} =this.state;
+         console.log();
         let table = []
         let tbody = []
-        tbody.push(<tr><td>Date</td><td>Location</td><td>Member</td><td>Join</td></tr>)
+        let crew_id = -1;
+        tbody.push(<tr><td>Departure</td><td>Arrival</td><td>Boat</td><td>Location</td><td>Member</td><td>Join</td></tr>)
         // Outer loop to create parent
-        for (let i = 0; i < 5; i++) {
-          let children = []        
+        let children = []  
+        let crew_names = []
+        for (let i = 0; i < this.state.data.length; i++) {
+                
           //Inner loop to create children
-          for (let j = 0; j < 3; j++) {
-            children.push(<td>{`Column ${j + 1}`}</td>)
-          }
-          children.push(<button>Join Trip</button>)
-          tbody.push(<tr>{children}</tr>)
+          
+            //children.push(<td>{`Column ${j + 1}`}</td>)
+
+            if(crew_id == this.state.data[i].crew ){
+                crew_names.push(<br/>,this.state.data[i].first_name + " " + this.state.data[i].last_name)
+            }else{
+                children.push(<td>{this.state.data[i].departure}</td>)
+                children.push(<td>{this.state.data[i].arrival}</td>)
+                children.push(<td>{this.state.data[i].boat_name}</td>)
+                crew_names.push(this.state.data[i].first_name + " " + this.state.data[i].last_name)
+                crew_id=this.state.data[i].crew
+            }
+          
+          //children.push(<button>Join Trip</button>)
+          
         }
+        children.push(<td nowrap>{crew_names}</td>)
+        tbody.push(<tr>{children}</tr>)
         table.push(<tbody>{tbody}</tbody>)
         return table
       }   
