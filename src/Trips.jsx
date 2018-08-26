@@ -98,7 +98,7 @@ class Trips extends React.Component {
           //children.push(<button>Join Trip</button>)
           
         }
-        children.push(<td nowrap>{crew_names}</td>)
+        children.push(<td nowrap="true">{crew_names}</td>)
         tbody.push(<tr>{children}</tr>)
         table.push(<tbody>{tbody}</tbody>)
         return table

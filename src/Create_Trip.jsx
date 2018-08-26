@@ -1,118 +1,87 @@
 import React from 'react'
 import { connect } from 'react-redux';
+import GoogleMapReact from 'google-map-react';
+import marker from './marker.png'
+import './App.css';
+const AnyReactComponent = ({ text }) => <div> <img src={marker} alt="Marker" height="15" width="15" /> </div>;
 
 class CreateTrip extends React.Component {
-    constructor() {
-        super()
-        this.handleSubmit = event => {};
-    }
+	constructor() {
+		super()
+		this.handleSubmit = event => { };
+		this.state = {
+			lat: 54.32329270,
+			lng: 10.12276520,
+			zoom: 11
+		};
+		this._onClick = this._onClick.bind(this);
+	}
 
-    render() {
-         return <div className="CreateTrip">
-          <h4>Create a Trip</h4>
-          <form onSubmit={this.handleSubmit}>
-            <div>
-                <label>Boot</label>
-                <input type="boot"/>
-            </div>
-            <div>
-                <label>Crew</label>
-                <input type="text"/>
-                <input type="button" value="+"/>
-            </div>
-			
-			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAd2nDFBZR6bqEuDnpxNzGM08Xlh1RTkWc&callback=initMap" async defer></script>
-            <div id="map">
-                {
-					var map;
-					var curMarker;
-					var geocoder, addressString = "";
+	handleClick(letter) {
+		this.setState({ justClicked: letter });
+	}
+	_onClick(obj) {
+		this.setState({
+			lat: obj.lat,
+			lng: obj.lng
+		})
+	}
 
-					function getLocationByLatLng(geocoder, latLng) {
-						var needsRetry = true;
-						
-						while (needsRetry) {
-							needsRetry = false;
-						
-							geocoder.geocode({
-								'latLng': latLng
-							}, 
-							function (results, status) {
-								switch (status) {
-									case google.maps.GeocoderStatus.OK:
-										if (results[0]) {
-											addressString = results[0].formatted_address;
-											console.log(addressString);
-										}
-										else {
-											console.log('No place found for latlng: ' + latLng);
-											addressString = "";
-										}
-										break;
-										
-									case google.maps.GeocoderStatus.OVER_QUERY_LIMIT: 
-										needsRetry = true;
-										
-									default:
-										addressString = "";
-										console.log('Geocoder failed due to: ' + status);
-										break;
-								}
-							})
-						}
-					}
-					
-					function onMapClick(event) {
-						var latLng = event.latLng;
+	render() {
+		console.log("lat: "+this.state.lat)
+		console.log("lng: "+this.state.lng)
+		return <div className="CreateTrip">
+			<h4>Create a Trip</h4>
+			<form onSubmit={this.handleSubmit}>
+				<div>
+					<label>Boot</label>
+					<input type="boot" />
+				</div>
+				<div>
+					<label>Crew</label>
+					<input type="text" />
+					<input type="button" value="+" />
+				</div>
+				<div style={{ height: '50vh', width: '50%', margin: '0px auto' }}>
+					<GoogleMapReact
+						bootstrapURLKeys={{ key: "AIzaSyAd2nDFBZR6bqEuDnpxNzGM08Xlh1RTkWc" }}
+						center={{
+							lat: this.state.lat,
+							lng: this.state.lng,
+						}}
+						defaultZoom={this.state.zoom}
+						onClick={this._onClick}
+					>
+						<AnyReactComponent
+							lat={this.state.lat}
+							lng={this.state.lng}
+							text={'Kreyser Avrora'}
+						/>
+					</GoogleMapReact>
+				</div>
+				<div>
+					<label>Departure</label>
+					<input type="date" />
+					<input type="time" />
+				</div>
 
-						if (curMarker != null) 
-							curMarker.setMap(null);
-						
-						curMarker = new google.maps.Marker({
-							position: latLng,
-							label: 'Trip',
-							map: map
-						});
+				<div>
+					<label>Arrival</label>
+					<input type="date" />
+					<input type="time" />
+				</div>
 
-						getLocationByLatLng(geocoder, latLng);
-					}
-
-					function initMap() {
-					  map = new google.maps.Map(document.getElementById('map'), {
-							center: {lat: 54.32329270, lng: 10.12276520}, // Kiel
-							zoom: 10
-						});
-						
-						geocoder = new google.maps.Geocoder();
-						
-						google.maps.event.addListener(map, 'click', onMapClick);
-					}
-				}
-            </div>
-
-            <div>
-                <label>Departure</label>
-                <input type="date"/>
-                <input type="time"/>
-            </div>
-
-            <div>
-                <label>Arrival</label>
-                <input type="date"/>
-                <input type="time"/>
-            </div>
-
-            <div className="row">
-                <input type="submit" value="Create Trip"/>
-            </div>
-        </form>
-          </div>
-    }
+				<div className="row">
+					<input type="submit" value="Create Trip" />
+				</div>
+			</form>
+		</div>
+	}
 }
 
-function mapStateToProps(state){
-    return {
-        create_trip: state.create_trip
-    };
-  }
-  export default connect(mapStateToProps)(CreateTrip);
+function mapStateToProps(state) {
+	return {
+		create_trip: state.create_trip
+	};
+}
+export default connect(mapStateToProps)(CreateTrip);
