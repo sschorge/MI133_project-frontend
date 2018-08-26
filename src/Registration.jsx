@@ -48,7 +48,7 @@ class Registration extends React.Component {
             </div>
 
 
-            <div className="row">
+            <div>
                 <input type="submit" value="sign up"/>
 
                 <input type="button" value="cancel" onClick={this.resetState}/>

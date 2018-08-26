@@ -71,7 +71,7 @@ class CreateTrip extends React.Component {
 					<input type="time" />
 				</div>
 
-				<div className="row">
+				<div>
 					<input type="submit" value="Create Trip" />
 				</div>
 			</form>

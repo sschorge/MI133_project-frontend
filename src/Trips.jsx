@@ -133,7 +133,7 @@ class Trips extends React.Component {
                 {this.state.sign_trip ?
                     <div>
                     <h4>Sign into a Trip</h4>
-                    <table id="triptable">
+                    <table id="triptable" key ="1">
                         {this.createTable()}
                     </table>
                     </div>
@@ -145,7 +145,7 @@ class Trips extends React.Component {
                </div>
                :false
             }
-            <div className="row">
+            <div>
                <input type="button" value="back" onClick={this._back}/>
             </div>
         </div>
