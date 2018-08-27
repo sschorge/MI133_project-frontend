@@ -3,14 +3,17 @@ import {
     ACTION1,
     SET_REGISTRATION,
     RESET_STATE,
-    SET_HIDE_MENUE
+    SET_HIDE_MENUE,
+    SET_LOGIN,
+    SET_LOGOUT
     } from './actions'
     
     const initialState = () => ({
         user:'',
         ui:{
             registration:false,
-            hide_menue:false
+            hide_menue:false,
+            login:false
         }
        
     })
@@ -20,9 +23,18 @@ import {
         
         switch (type) {
             case SET_REGISTRATION: {
-    
                 return {
                     ...state,registration:true
+                }
+            }
+            case SET_LOGIN: {
+                return {
+                    ...state, login:true
+                }
+            }
+            case SET_LOGOUT: {
+                return {
+                    ...state, login:false
                 }
             }
             case SET_HIDE_MENUE:{
@@ -32,7 +44,6 @@ import {
             }
             case RESET_STATE:{
                 return state = initialState()
-
             }
             default:
                 return state

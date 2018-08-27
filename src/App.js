@@ -3,7 +3,7 @@ import Trips from './Trips'
 import './App.css';
 import { connect } from 'react-redux';
 import Register from './Register';
-
+import Login from './Login';
 class App extends Component {
 
   render() {
@@ -12,8 +12,8 @@ class App extends Component {
     return (
       <div className="App">
       <h2> Water Sports Lookbook</h2>
+      <Login/>
       <Register/>
-      
       {!registration ?
         <div>
           <h4>Welcome {user}</h4> 
