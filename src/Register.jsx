@@ -8,7 +8,7 @@ class Register extends React.Component {
       super();
 
       //this._onButtonClick = () =>{this._onButtonClick.bind(this);
-      this._onButtonClick = ()=>{this.props.dispatch(set_registration())}
+      this._onButtonClick = ()=>{this.props.dispatch(set_registration({bool:true}))}
     }
 
     render() {

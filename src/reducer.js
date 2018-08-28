@@ -1,6 +1,5 @@
 import {
     //actions from ./actions
-    ACTION1,
     SET_REGISTRATION,
     RESET_STATE,
     SET_HIDE_MENUE,
@@ -24,17 +23,17 @@ import {
         switch (type) {
             case SET_REGISTRATION: {
                 return {
-                    ...state,registration:true
+                    ...state,registration: payload.bool
                 }
             }
             case SET_LOGIN: {
                 return {
-                    ...state, login:true
+                    ...state, login:true, user: payload.username
                 }
             }
             case SET_LOGOUT: {
                 return {
-                    ...state, login:false
+                    ...state, login:false, user: ''
                 }
             }
             case SET_HIDE_MENUE:{

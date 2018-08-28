@@ -12,49 +12,42 @@ class Login extends React.Component {
         this._onButtonClickLogout = () => { this.props.dispatch(set_logout()) }
 
         this._onButtonClickLogin = () => {
-  
-            this.props.dispatch(requestLogin(this.state.username,this.state.password))
+            this.props.dispatch(requestLogin(this.state.username, this.state.password))
         }
 
-        this.updateUsernameValue=(evt) => {
-            this.setState({
-                username: evt.target.value
-            })
+        this.handleChange = (event) => {
+            this.setState({ [event.target.name]: event.target.value })
         }
-        this.updatePasswordValue=(evt) => {
-            this.setState({
-                password: evt.target.value
-            })
-        }      
     }
 
-        render() {
-            return (
-                <div>
-                    {this.props.login ?
-                        <button onClick={this._onButtonClickLogout}>Logout</button>
-                        :
-                        <div>
-                            <form onSubmit={this.handleSubmit}>
-                                <div>
-                                    <label>Username</label>
-                                    <input type="text" value={this.state.username} onChange={evt => this.updateUsernameValue(evt)} />
-                                </div>
-                                <div>
-                                    <label>Password</label>
-                                    <input type="password" value={this.state.password} onChange={evt => this.updatePasswordValue(evt)} />
-                                </div>
-                                <button onClick={this._onButtonClickLogin}>Login</button>
-                            </form>
-                        </div>
-                    }
-                </div>
-            );
-        }
-
+    render() {
+        const { username, password } = this.state
+        return (
+            <div>
+                {this.props.login ?
+                    <button onClick={this._onButtonClickLogout}>Logout</button>
+                    :
+                    <div>
+                        <form onSubmit={this.handleSubmit}>
+                            <div>
+                                <label>Username</label>
+                                <input type="text" name='username' value={username} onChange={evt => this.handleChange(evt)} />
+                            </div>
+                            <div>
+                                <label>Password</label>
+                                <input type="password" name='password' value={password} onChange={evt => this.handleChange(evt)} />
+                            </div>
+                            <button onClick={this._onButtonClickLogin}>Login</button>
+                        </form>
+                    </div>
+                }
+            </div>
+        );
     }
 
-  function mapStateToProps(state) {
+}
+
+function mapStateToProps(state) {
     return {
         user: state.user,
         login: state.login
