@@ -14,10 +14,10 @@ export const SET_HIDE_MENUE = 'SET_HIDE_MENUE'
 export const set_hide_menue = () => ({ type: SET_HIDE_MENUE })
 
 export const SET_LOGIN = 'LOGIN'
-export const set_login = (data,daten) => {
+export const set_login = (data, daten) => {
     //console.log("username:"+ username)
-    console.log( data)
-    return { type: SET_LOGIN, payload:daten.username}
+    console.log(data)
+    return { type: SET_LOGIN, payload: daten.username }
 }
 
 export const requestLogin = (username, password) => async dispatch => {
@@ -33,7 +33,7 @@ export const requestLogin = (username, password) => async dispatch => {
         },
         credentials: "same-origin"
     }).then(res => res.json())
-        .then(data => dispatch(set_login(data,daten))
+        .then(data => dispatch(set_login(data, daten))
         )
 }
 
@@ -46,17 +46,22 @@ export const requestLogin = (username, password) => async dispatch => {
 export const requestRegister = (username, password, first_name, last_name) => async dispatch => {
     try {
         let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/register";
-        let data = { username: username, password: password, first_name: first_name, last_name: last_name };
+        let daten = { username: username, password: password, first_name: first_name, last_name: last_name };
         fetch(url, {
             method: "POST",
-            body: JSON.stringify(data),
+            body: JSON.stringify(daten),
             headers: {
                 "Content-Type": "application/json"
             },
             credentials: "same-origin"
-        }).then(
-            dispatch(set_registration({ bool: false }))
-        )
+        }).then(res => res.json())
+            .then(data => {
+                alert(data.message)
+                dispatch(set_registration({ bool: data.success }))
+            })
+
+
+
     } catch (e) {
         console.error(e)
     }

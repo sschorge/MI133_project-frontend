@@ -19,10 +19,10 @@ import {
     
     export default function reducer(state = initialState(), action) {
         const {type, payload} = action
-        
+        console.log(payload)
         switch (type) {
             case SET_REGISTRATION: {
-                return {
+                return {               
                     ...state,registration: payload.bool
                 }
             }

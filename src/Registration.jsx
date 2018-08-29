@@ -32,6 +32,9 @@ class Registration extends React.Component {
         this.handleChange = (event) => {
             this.setState({ [event.target.name]: event.target.value })
         }
+        this.handleSubmit = (event) => {
+            event.preventDefault();
+         }
     }
 
     render() {
