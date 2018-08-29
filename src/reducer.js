@@ -28,7 +28,7 @@ import {
             }
             case SET_LOGIN: {
                 return {
-                    ...state, login:true, user: payload.username
+                    ...state, login:true, user:payload
                 }
             }
             case SET_LOGOUT: {

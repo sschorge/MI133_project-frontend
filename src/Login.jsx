@@ -18,6 +18,9 @@ class Login extends React.Component {
         this.handleChange = (event) => {
             this.setState({ [event.target.name]: event.target.value })
         }
+        this.handleSubmit = (event) => {
+           event.preventDefault();
+        }
     }
 
     render() {
@@ -28,7 +31,7 @@ class Login extends React.Component {
                     <button onClick={this._onButtonClickLogout}>Logout</button>
                     :
                     <div>
-                        <form onSubmit={this.handleSubmit}>
+                        <form onSubmit={this.handleSubmit} >
                             <div>
                                 <label>Username</label>
                                 <input type="text" name='username' value={username} onChange={evt => this.handleChange(evt)} />
@@ -37,7 +40,7 @@ class Login extends React.Component {
                                 <label>Password</label>
                                 <input type="password" name='password' value={password} onChange={evt => this.handleChange(evt)} />
                             </div>
-                            <button onClick={this._onButtonClickLogin}>Login</button>
+                            <button type="submit" onClick={this._onButtonClickLogin}>Login</button>
                         </form>
                     </div>
                 }

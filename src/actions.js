@@ -1,4 +1,5 @@
 // JavaScript File to define Actions for the Reducer
+import fetch from 'cross-fetch'
 
 export const SET_REGISTRATION = 'REGISTRATION'
 export const set_registration = (bool) => ({ type: SET_REGISTRATION, payload: bool })
@@ -13,64 +14,35 @@ export const SET_HIDE_MENUE = 'SET_HIDE_MENUE'
 export const set_hide_menue = () => ({ type: SET_HIDE_MENUE })
 
 export const SET_LOGIN = 'LOGIN'
-export const set_login = (data) => {
-    alert("set_login wird ausgeführt" + data);
-    console.log(data)
-    return { type: SET_LOGIN, payload: data }
+export const set_login = (data,daten) => {
+    //console.log("username:"+ username)
+    console.log( data)
+    return { type: SET_LOGIN, payload:daten.username}
 }
 
 export const requestLogin = (username, password) => async dispatch => {
     //alert("requestLogin wird ausgeführt \n" + "username: " + username + "\n" + "password: " + password)
-    try {
-        let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/login";
-        let data = { username: username, password: password };
-        /*
-           fetch(url, {
-               method: "POST",
-               body: JSON.stringify(data),
-               headers: {
-                   "Content-Type": "application/json"
-               },
-               credentials: "same-origin"
-           }).then(
-               dispatch(set_login(data))
-               )
-           */
-          const response = await    fetch(url, {
-            method: 'post',
-            //mode: 'cors',
-            //redirect: 'follow',
-            body: JSON.stringify(data),
-            headers: {
-                //Accept: 'application/json',
-                //'Access-Control-Allow-Origin': '*',
-                "Content-Type": "application/json"
-            },
-            credentials: "same-origin"
-            
-        });
-        const json = await response.text();
-        console.log(json);
-            /*(response) => response.text())
-        .then((responseJson) => {        
-          console.log(responseJson);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-        /*fetch('http://rcpoonkk8vbqkyiw.myfritz.net:3000/login', {
-            method: 'post',
-            body: JSON.stringify(data)
-          }).then(
-            dispatch(set_login(data))
-            )
-        */
-
-    } catch (e) {
-        console.error(e)
-    }
+    console.log("in requestLogin " + username, password);
+    let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/login";
+    let daten = { username: username, password: password };
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify(daten),
+        headers: {
+            "Content-Type": "application/json"
+        },
+        credentials: "same-origin"
+    }).then(res => res.json())
+        .then(data => dispatch(set_login(data,daten))
+        )
 }
 
+
+/*export const requestLogin = (username, password) => async dispatch => {
+    const loginRes = await axios.post('http://rcpoonkk8vbqkyiw.myfritz.net:3000/login', {username, password})
+    dispatch(set_login(loginRes.data))
+  }
+*/
 export const requestRegister = (username, password, first_name, last_name) => async dispatch => {
     try {
         let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/register";
