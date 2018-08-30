@@ -18,7 +18,6 @@ import {
     
     export default function reducer(state = initialState(), action) {
         const {type, payload} = action
-        console.log(payload)
         switch (type) {
             case SET_REGISTRATION: {
                 return {               
@@ -41,7 +40,7 @@ import {
                 }
             }
             case RESET_STATE:{
-                return state = initialState()
+                return {...state, registration:false, hide_menue:false}
             }
             default:
                 return state
