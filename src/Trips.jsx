@@ -62,12 +62,13 @@ class Trips extends React.Component {
             this.props.dispatch(reset_state())
         }
     }
-    componentDidMount() {
-        /*fetch('http://rcpoonkk8vbqkyiw.myfritz.net:3000/trips/17')
+   /* componentDidMount() {
+        fetch('http://rcpoonkk8vbqkyiw.myfritz.net:3000/trips/17')
             .then(response => { return response.json() })
             .then(data => { this.setState({ data }) });
-            */
+            
     }
+    */
     createTable = () => {
         console.log("createTable")
         console.log();
@@ -81,7 +82,6 @@ class Trips extends React.Component {
         for (let i = 0; i < this.state.data.length; i++) {
 
             //Inner loop to create children
-
             //children.push(<td>{`Column ${j + 1}`}</td>)
 
             if (crew_id === this.state.data[i].crew) {
@@ -127,7 +127,7 @@ class Trips extends React.Component {
                 {this.state.sign_trip ?
                     <div>
                         <h4>Sign into a Trip</h4>
-                        <table id="triptable" key="1">
+                        <table id="table" key="1">
                             {this.createTable()}
                         </table>
                     </div>
