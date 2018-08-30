@@ -13,8 +13,7 @@ import {
             registration:false,
             hide_menue:false,
             login:false
-        }
-       
+        }   
     })
     
     export default function reducer(state = initialState(), action) {

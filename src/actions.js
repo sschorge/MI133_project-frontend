@@ -57,11 +57,8 @@ export const requestRegister = (username, password, first_name, last_name) => as
         }).then(res => res.json())
             .then(data => {
                 alert(data.message)
-                dispatch(set_registration({ bool: data.success }))
+                dispatch(set_registration({ bool: !data.success }))
             })
-
-
-
     } catch (e) {
         console.error(e)
     }
