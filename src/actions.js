@@ -37,12 +37,6 @@ export const requestLogin = (username, password) => async dispatch => {
         )
 }
 
-
-/*export const requestLogin = (username, password) => async dispatch => {
-    const loginRes = await axios.post('http://rcpoonkk8vbqkyiw.myfritz.net:3000/login', {username, password})
-    dispatch(set_login(loginRes.data))
-  }
-*/
 export const requestRegister = (username, password, first_name, last_name) => async dispatch => {
     try {
         let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/register";
@@ -58,6 +52,27 @@ export const requestRegister = (username, password, first_name, last_name) => as
             .then(data => {
                 alert(data.message)
                 dispatch(set_registration({ bool: !data.success }))
+            })
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+export const createTrip = (boat, crew, latitude, longitude, departure, arrival) => async dispatch => {
+    try {
+        let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/create_trip";
+        let daten = { boat, crew, latitude, longitude, departure, arrival };
+        console.log(daten)
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify(daten),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "same-origin"
+        }).then(res => res.json())
+            .then(data => {
+                alert(data)
             })
     } catch (e) {
         console.error(e)
