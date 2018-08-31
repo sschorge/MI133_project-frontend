@@ -2,6 +2,7 @@ import * as actions from './actions'
 import reducer from './reducer';
 import initialState from './reducer';
 import {requestLogin} from './actions';
+import {requestRegister} from './actions';
 
 describe('the app logic', () => {
 	it('should return the initial state', () => {
