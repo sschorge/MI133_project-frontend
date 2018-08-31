@@ -62,13 +62,13 @@ class Trips extends React.Component {
             this.props.dispatch(reset_state())
         }
     }
-   /* componentDidMount() {
-        fetch('http://rcpoonkk8vbqkyiw.myfritz.net:3000/trips/17')
-            .then(response => { return response.json() })
-            .then(data => { this.setState({ data }) });
-            
-    }
-    */
+    /* componentDidMount() {
+         fetch('http://rcpoonkk8vbqkyiw.myfritz.net:3000/trips/17')
+             .then(response => { return response.json() })
+             .then(data => { this.setState({ data }) });
+             
+     }
+     */
     createTable = () => {
         console.log("createTable")
         console.log();
@@ -80,10 +80,6 @@ class Trips extends React.Component {
         let children = []
         let crew_names = []
         for (let i = 0; i < this.state.data.length; i++) {
-
-            //Inner loop to create children
-            //children.push(<td>{`Column ${j + 1}`}</td>)
-
             if (crew_id === this.state.data[i].crew) {
                 crew_names.push(<br />, this.state.data[i].first_name + " " + this.state.data[i].last_name)
             } else {
@@ -93,9 +89,6 @@ class Trips extends React.Component {
                 crew_names.push(this.state.data[i].first_name + " " + this.state.data[i].last_name)
                 crew_id = this.state.data[i].crew
             }
-
-            //children.push(<button>Join Trip</button>)
-
         }
         children.push(<td nowrap="true">{crew_names}</td>)
         tbody.push(<tr>{children}</tr>)
