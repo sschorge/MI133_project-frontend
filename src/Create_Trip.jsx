@@ -1,8 +1,10 @@
-import React from 'react'
+import React from 'react';
 import { connect } from 'react-redux';
 import GoogleMapReact from 'google-map-react';
-import marker from './marker.png'
+import marker from './marker.png';
 import './App.css';
+import {createTrip} from './actions'
+
 const AnyReactComponent = ({ text }) => <div> <img src={marker} alt="Marker" height="15" width="15" /> </div>;
 
 class CreateTrip extends React.Component {
@@ -45,6 +47,12 @@ class CreateTrip extends React.Component {
 				crew_names: crewmember
 			})
 		}
+		this._onButtonClickCreateTrip = () => {
+			let departure = this.state.dep_date + this.state.dep_time;
+			let arrival = this.state.arrival_date + this.state.dep_time;
+			this.props.dispatch(createTrip(this.state.selected_boat, this.state.crew_names, this.state.lat, this.state.lng, departure, arrival))
+			//boat, crew, latitude, longitude, departure, arrival
+        }
 	}
 
 	handleClick(letter) {
@@ -114,7 +122,7 @@ class CreateTrip extends React.Component {
 				<table id="table">
 					{this.createTable()}
 				</table>
-				<div style={{ height: '50vh', width: '50%', margin: '0px auto' }}>
+				<div style={{ height: '50vh', width: '100%', margin: '0px auto' }}>
 					<GoogleMapReact
 						bootstrapURLKeys={{ key: "AIzaSyAd2nDFBZR6bqEuDnpxNzGM08Xlh1RTkWc" }}
 						center={{
@@ -142,7 +150,7 @@ class CreateTrip extends React.Component {
 					<input type="time" name='arrival_time' value={arrival_time} onChange={evt => this.handleChange(evt)} />
 				</div>
 				<div>
-					<input type="submit" value="Create Trip" />
+					<input type="submit" value="Create Trip" onClick={this._onButtonClickCreateTrip} />
 				</div>
 			</form>
 		</div>
