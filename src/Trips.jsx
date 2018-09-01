@@ -67,7 +67,7 @@ class Trips extends React.Component {
              .then(response => { return response.json() })
              .then(data => { this.setState({ data }) });
              
-     }
+     } string all für ID
      */
     createTable = () => {
         console.log("createTable")
