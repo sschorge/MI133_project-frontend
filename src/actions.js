@@ -58,10 +58,10 @@ export const requestRegister = (username, password, first_name, last_name) => as
     }
 }
 
-export const createTrip = (boat, crew, latitude, longitude, departure, arrival) => async dispatch => {
+export const createTrip = (boat_id, crew, latitude, longitude, departure, arrival) => async dispatch => {
     try {
         let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/create_trip";
-        let daten = { boat, crew, latitude, longitude, departure, arrival };
+        let daten = { boat_id, crew, latitude, longitude, departure, arrival };
         console.log(daten)
         fetch(url, {
             method: "POST",
@@ -72,7 +72,7 @@ export const createTrip = (boat, crew, latitude, longitude, departure, arrival) 
             credentials: "same-origin"
         }).then(res => res.json())
             .then(data => {
-                alert(data)
+                console.log(data)
             })
     } catch (e) {
         console.error(e)
