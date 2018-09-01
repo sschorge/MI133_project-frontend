@@ -17,6 +17,7 @@ class CreateTrip extends React.Component {
 			zoom: 11,
 			boats: [], //array aus strings
 			selected_boat: '',
+			selected_boat_id: 0,
 			crew_size: 0,
 			crew_names: [],
 			dep_date: '',
@@ -35,7 +36,8 @@ class CreateTrip extends React.Component {
 				return item.id === parseInt(e.target.value,10)
 			})
 			this.setState({
-				crew_size: value[0].id,
+				selected_boat_id: value[0].id,
+				crew_size: value[0].boat_size,
 				selected_boat: value[0].boat_name
 			})
 		}
@@ -48,9 +50,20 @@ class CreateTrip extends React.Component {
 			})
 		}
 		this._onButtonClickCreateTrip = () => {
-			let departure = this.state.dep_date + this.state.dep_time;
-			let arrival = this.state.arrival_date + this.state.dep_time;
-			this.props.dispatch(createTrip(this.state.selected_boat, this.state.crew_names, this.state.lat, this.state.lng, departure, arrival))
+			let departure = this.state.dep_date + " " + this.state.dep_time;
+			let dep_unix = (new Date(departure.replace(/-/g, '/')).getTime()/1000)
+			let arrival = this.state.arrival_date + " " + this.state.dep_time;
+			let arrival_unix = (new Date(arrival.replace(/-/g, '/')).getTime() / 1000);
+			let lat = this.state.lat * 1000000
+			let tmp = Math.round(lat)
+			let slat = tmp / 1000000
+
+			let lng = this.state.lng * 1000000
+			let tmp2 = Math.round(lng)
+			let slng = tmp2 / 1000000
+
+
+			this.props.dispatch(createTrip(this.state.selected_boat_id, this.state.crew_names, slat, slng, dep_unix, arrival_unix))
 			//boat, crew, latitude, longitude, departure, arrival
         }
 	}
