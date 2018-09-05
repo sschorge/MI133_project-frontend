@@ -13,6 +13,9 @@ export const reset_state = () => ({ type: RESET_STATE })
 export const SET_HIDE_MENUE = 'SET_HIDE_MENUE'
 export const set_hide_menue = () => ({ type: SET_HIDE_MENUE })
 
+export const SET_CREATE_TRIP = 'SET_CREATE_TRIP'
+export const set_create_trip = (bool) => ({type: SET_CREATE_TRIP, payload: bool})
+
 export const SET_LOGIN = 'LOGIN'
 export const set_login = (data, daten) => {
     //console.log("username:"+ username)
@@ -73,6 +76,12 @@ export const createTrip = (boat_id, crew, latitude, longitude, departure, arriva
         }).then(res => res.json())
             .then(data => {
                 console.log(data)
+                if(data.success){
+                    alert("Create Trip was Successful!")
+                } else {
+                    alert("Create Trip failed!")
+                }
+                dispatch(set_create_trip({bool: !data.success}))
             })
     } catch (e) {
         console.error(e)

@@ -4,7 +4,8 @@ import {
     RESET_STATE,
     SET_HIDE_MENUE,
     SET_LOGIN,
-    SET_LOGOUT
+    SET_LOGOUT,
+    SET_CREATE_TRIP
     } from './actions'
     
     const initialState = () => ({
@@ -37,6 +38,11 @@ import {
             case SET_HIDE_MENUE:{
                 return {
                     ...state, hide_menue:true
+                }
+            }
+            case SET_CREATE_TRIP:{
+                return {
+                    ...state,hide_menue:false,registration:false
                 }
             }
             case RESET_STATE:{
