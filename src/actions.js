@@ -14,7 +14,13 @@ export const SET_HIDE_MENUE = 'SET_HIDE_MENUE'
 export const set_hide_menue = () => ({ type: SET_HIDE_MENUE })
 
 export const SET_CREATE_TRIP = 'SET_CREATE_TRIP'
-export const set_create_trip = (bool) => ({type: SET_CREATE_TRIP, payload: bool})
+export const set_create_trip = (create_trip,hide_menue) => ({type: SET_CREATE_TRIP, payload: create_trip, hide_menue})
+
+export const SET_SIGN_TRIP = 'SET_SIGN_TRIP'
+export const set_sign_trip = (sign_trip, hide_menue) => ({type: SET_SIGN_TRIP, payload: sign_trip, hide_menue})
+
+
+
 
 export const SET_LOGIN = 'LOGIN'
 export const set_login = (data, daten) => {
@@ -81,7 +87,7 @@ export const createTrip = (boat_id, crew, latitude, longitude, departure, arriva
                 } else {
                     alert("Create Trip failed!")
                 }
-                dispatch(set_create_trip({bool: !data.success}))
+                dispatch(set_create_trip({bool: !data.success,hide_menue: false}))
             })
     } catch (e) {
         console.error(e)
