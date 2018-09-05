@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import {
     //actions from ./actions
     set_hide_menue,
-    reset_state
+    reset_state,
+    set_create_trip,
+    set_sign_trip,
 } from './actions'
 import CreateTrip from './Create_Trip';
 import './App.css';
@@ -13,35 +15,20 @@ class Trips extends React.Component {
         super()
 
         this.state = {
-            ui: {
-                create_trip: false,
-                sign_trip: false,
-                start_trip: false,
-                end_trip: false,
-            },
             data: {
                 //select data for table
             }
         };
 
         this._create_trip = () => {
-            this.setState({
-                create_trip: true
-            })
-            this.props.dispatch(set_hide_menue())
+            this.props.dispatch(set_create_trip({ create_trip: true, hide_menue: true }))
         }
 
         this._sign_trip = () => {
-            this.setState({
-                sign_trip: true
-            })
-            this.props.dispatch(set_hide_menue())
+            this.props.dispatch(set_sign_trip({ sign_trip: true, hide_menue: true }))
         };
 
         this._start_trip = () => {
-            this.setState({
-                start_trip: true
-            })
             this.props.dispatch(set_hide_menue())
         }
 
@@ -62,42 +49,62 @@ class Trips extends React.Component {
             this.props.dispatch(reset_state())
         }
     }
-    /* componentDidMount() {
-         fetch('http://rcpoonkk8vbqkyiw.myfritz.net:3000/trips/17')
-             .then(response => { return response.json() })
-             .then(data => { this.setState({ data }) });
-             
-     } string all für ID
-     */
+    componentDidMount() {
+        let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/view_trips";
+        let daten = { id: "all" };
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify(daten),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "same-origin"
+        }).then(response => {
+            console.log(response)
+            return response.json()
+        })
+            .then(data => { this.setState({ data: data.trips }) });
+    }
+    //string all für ID
+
     createTable = () => {
         console.log("createTable")
-        console.log();
+        console.log(this.state.data);
         let table = []
         let tbody = []
-        let crew_id = -1;
         tbody.push(<tr><td>Departure</td><td>Arrival</td><td>Boat</td><td>Location</td><td>Member</td><td>Join</td></tr>)
         // Outer loop to create parent
         let children = []
         let crew_names = []
+        let trip_id = -1
         for (let i = 0; i < this.state.data.length; i++) {
-            if (crew_id === this.state.data[i].crew) {
+
+            if (trip_id === this.state.data[i].trip_id) {
                 crew_names.push(<br />, this.state.data[i].first_name + " " + this.state.data[i].last_name)
             } else {
+
+                children.push(<td nowrap="true">{crew_names}</td>)
                 children.push(<td>{this.state.data[i].departure}</td>)
                 children.push(<td>{this.state.data[i].arrival}</td>)
                 children.push(<td>{this.state.data[i].boat_name}</td>)
+                children.push(<td>{this.state.data[i].latitude + " " + this.state.data[i].longitude}</td>)
                 crew_names.push(this.state.data[i].first_name + " " + this.state.data[i].last_name)
-                crew_id = this.state.data[i].crew
+                
+                children.push(<td nowrap="true">{crew_names}</td>)
+                tbody.push(<tr>{children}</tr>)
+                
+                children = []
+                crew_names = []
             }
         }
-        children.push(<td nowrap="true">{crew_names}</td>)
-        tbody.push(<tr>{children}</tr>)
+        //children.push(<td nowrap="true">{crew_names}</td>)
+        //tbody.push(<tr>{children}</tr>)
         table.push(<tbody>{tbody}</tbody>)
         return table
     }
 
     render() {
-        const { hide_menue } = this.props;
+        const { hide_menue, create_trip, sign_trip } = this.props;
 
         return <div>
             {!hide_menue ?
@@ -117,16 +124,17 @@ class Trips extends React.Component {
                 </div> : false
             }
             <div>
-                {this.state.sign_trip ?
+                {sign_trip ?
                     <div>
                         <h4>Sign into a Trip</h4>
                         <table id="table" key="1">
                             {this.createTable()}
                         </table>
                     </div>
-                    : false}
+                    : false
+                }
             </div>
-            {this.state.create_trip ?
+            {create_trip ?
                 <div>
                     <CreateTrip />
                 </div>
@@ -140,7 +148,11 @@ class Trips extends React.Component {
 }
 function mapStateToProps(state) {
     return {
-        hide_menue: state.hide_menue
+        hide_menue: state.hide_menue,
+        create_trip: state.trips.create_trip,
+        sign_trip: state.trips.sign_trip,
+        start_trip: state.trips.start_trip,
+        end_trip: state.trips.end_trip
     };
 }
 export default connect(mapStateToProps)(Trips);
