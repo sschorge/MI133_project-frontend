@@ -5,7 +5,8 @@ import {
     SET_HIDE_MENUE,
     SET_LOGIN,
     SET_LOGOUT,
-    SET_CREATE_TRIP
+    SET_CREATE_TRIP,
+    SET_SIGN_TRIP
     } from './actions'
     
     const initialState = () => ({
@@ -14,6 +15,12 @@ import {
             registration:false,
             hide_menue:false,
             login:false
+        },
+        trips:{
+            create_trip: false,
+            sign_trip: false,
+            start_trip: false,
+            end_trip: false,
         }   
     })
     
@@ -41,8 +48,18 @@ import {
                 }
             }
             case SET_CREATE_TRIP:{
+                let trips = state.trips;
+                trips.create_trip = payload.create_trip
                 return {
-                    ...state,hide_menue:false,registration:false
+                    
+                    ...state, state: trips, hide_menue: payload.hide_menue
+                }
+            }
+            case SET_SIGN_TRIP:{
+                let trips = state.trips;
+                trips.sign_trip = payload.sign_trip
+                return {
+                    ...state, state: trips, hide_menue: payload.hide_menue
                 }
             }
             case RESET_STATE:{
