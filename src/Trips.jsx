@@ -78,27 +78,26 @@ class Trips extends React.Component {
         let crew_names = []
         let trip_id = -1
         for (let i = 0; i < this.state.data.length; i++) {
-
-            if (trip_id === this.state.data[i].trip_id) {
+            if (trip_id === this.state.data[i].trip_id && i > 0) {
                 crew_names.push(<br />, this.state.data[i].first_name + " " + this.state.data[i].last_name)
             } else {
-
-                children.push(<td nowrap="true">{crew_names}</td>)
+                if (i > 0) {
+                    children.push(<td nowrap="true">{crew_names}</td>)
+                    if (crew_names.length < this.state.data[i-1].boat_size){
+                        children.push(<td><button>Join Trip</button></td>)
+                    }
+                    tbody.push(<tr>{children}</tr>)
+                    children = []
+                    crew_names = []
+                }
                 children.push(<td>{this.state.data[i].departure}</td>)
                 children.push(<td>{this.state.data[i].arrival}</td>)
                 children.push(<td>{this.state.data[i].boat_name}</td>)
                 children.push(<td>{this.state.data[i].latitude + " " + this.state.data[i].longitude}</td>)
                 crew_names.push(this.state.data[i].first_name + " " + this.state.data[i].last_name)
-                
-                children.push(<td nowrap="true">{crew_names}</td>)
-                tbody.push(<tr>{children}</tr>)
-                
-                children = []
-                crew_names = []
+                trip_id = this.state.data[i].trip_id
             }
         }
-        //children.push(<td nowrap="true">{crew_names}</td>)
-        //tbody.push(<tr>{children}</tr>)
         table.push(<tbody>{tbody}</tbody>)
         return table
     }
