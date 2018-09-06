@@ -64,7 +64,11 @@ import {
                 }
             }
             case RESET_STATE:{
-                return {...state, registration:false, hide_menue:false}
+                let trips = state.trips;
+                trips.create_trip = false;
+                trips.sign_trip = false;
+                trips.start_trip = false;
+                return {...state, state:trips ,registration:false, hide_menue:false}
             }
             default:
                 return state
