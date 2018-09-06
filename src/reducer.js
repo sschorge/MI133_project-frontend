@@ -11,6 +11,7 @@ import {
     
     const initialState = () => ({
         user:'',
+        user_id:0,
         ui:{
             registration:false,
             hide_menue:false,
@@ -34,7 +35,7 @@ import {
             }
             case SET_LOGIN: {
                 return {
-                    ...state, login:true, user:payload
+                    ...state, login:true, user: payload.username, user_id: payload.user_id
                 }
             }
             case SET_LOGOUT: {

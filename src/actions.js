@@ -19,14 +19,11 @@ export const set_create_trip = (create_trip,hide_menue) => ({type: SET_CREATE_TR
 export const SET_SIGN_TRIP = 'SET_SIGN_TRIP'
 export const set_sign_trip = (sign_trip, hide_menue) => ({type: SET_SIGN_TRIP, payload: sign_trip, hide_menue})
 
-
-
-
 export const SET_LOGIN = 'LOGIN'
 export const set_login = (data, daten) => {
-    //console.log("username:"+ username)
-    console.log(data)
-    return { type: SET_LOGIN, payload: daten.username }
+    let user_id = data.user.id;
+    let username = daten.username;
+    return { type: SET_LOGIN, payload: {username, user_id}}
 }
 
 export const requestLogin = (username, password) => async dispatch => {
@@ -42,8 +39,7 @@ export const requestLogin = (username, password) => async dispatch => {
         },
         credentials: "same-origin"
     }).then(res => res.json())
-        .then(data => dispatch(set_login(data, daten))
-        )
+        .then(data => dispatch(set_login(data, daten)))
 }
 
 export const requestRegister = (username, password, first_name, last_name) => async dispatch => {
