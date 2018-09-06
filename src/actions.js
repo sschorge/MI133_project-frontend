@@ -90,4 +90,9 @@ export const createTrip = (boat_id, crew, latitude, longitude, departure, arriva
     }
 }
 
+export const joinTrip = (userid, tripid) => async dispatch =>{
+
+}
+
+
 //http://rcpoonkk8vbqkyiw.myfritz.net:3000/login

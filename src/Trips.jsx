@@ -6,6 +6,7 @@ import {
     reset_state,
     set_create_trip,
     set_sign_trip,
+    joinTrip
 } from './actions'
 import CreateTrip from './Create_Trip';
 import './App.css';
@@ -48,6 +49,10 @@ class Trips extends React.Component {
             })
             this.props.dispatch(reset_state())
         }
+        this._onButtonClickJoinTrip = () => {
+            this.props.dispatch(joinTrip(this.state.username, this.state.password))
+        }
+
     }
     componentDidMount() {
         let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/view_trips";
@@ -84,7 +89,7 @@ class Trips extends React.Component {
                 if (i > 0) {
                     children.push(<td nowrap="true">{crew_names}</td>)
                     if (crew_names.length < this.state.data[i-1].boat_size){
-                        children.push(<td><button>Join Trip</button></td>)
+                        children.push(<td><button onClick={this._onButtonClickJoinTrip} >Join Trip</button></td>)
                     }
                     tbody.push(<tr>{children}</tr>)
                     children = []
