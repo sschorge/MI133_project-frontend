@@ -30,15 +30,15 @@ describe('the app logic', () => {
 		
 		const expectedAction = { 
 			type: actions.SET_REGISTRATION, 
-			payload: true
+			payload: {bool:true}
 		}
 		
 		// check, whether the action is dispatched properly
-		store.dispatch(actions.set_registration(true))
+		store.dispatch(actions.set_registration({bool:true}))
 		expect(store.getActions()[0]).toEqual(expectedAction)
 		
 		// check, whether the state is changed properly while testing the reducer
-		const newState = reducer(undefined, actions.set_registration(true))
+		const newState = reducer(undefined, actions.set_registration({bool:true}))
 		expect(newState.ui.registration).toEqual(true)
 	});
 	
