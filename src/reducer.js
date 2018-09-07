@@ -29,8 +29,10 @@ import {
         const {type, payload} = action
         switch (type) {
             case SET_REGISTRATION: {
+                let ui = state.ui;
+                ui.registration = payload.bool
                 return {               
-                    ...state,registration: payload.bool
+                    ...state, state:ui
                 }
             }
             case SET_LOGIN: {
