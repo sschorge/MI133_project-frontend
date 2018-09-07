@@ -7,13 +7,20 @@ describe('the app logic', () => {
 	const middlewares = [ thunk ];
 	const mockStore = configureStore(middlewares);
 	const initialState = { 
-		user:'',
-		ui: {
-			registration:false,
-			hide_menue:false,
-			login:false
-		}   
-	}
+        user:'',
+        user_id:0,
+        ui:{
+            registration:false,
+            hide_menue:false,
+            login:false
+        },
+        trips:{
+            create_trip: false,
+            sign_trip: false,
+            start_trip: false,
+            end_trip: false,
+        }   
+    }
 	
 	it('should return the initial state', () => {
 		const newState = reducer(undefined, {})
