@@ -28,8 +28,20 @@ describe('the app logic', () => {
 	});
 
 	it('should reset the state (RESET_STATE action)', () => {
+		const expectedState = {
+			ui:{
+				registration:false,
+				hide_menue:false,
+			},
+			trips:{
+				create_trip: false,
+				sign_trip: false,
+				start_trip: false,
+				end_trip: false,
+			}  
+		}
 		const newState = reducer(undefined, actions.reset_state())
-		expect(newState).toEqual(initialState);
+		expect(newState).toEqual(expectedState);
 	});
 	
 	it('should set the regisration', () => {
