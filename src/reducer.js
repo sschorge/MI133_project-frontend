@@ -76,7 +76,11 @@ import {
                 trips.create_trip = false;
                 trips.sign_trip = false;
                 trips.start_trip = false;
-                return {...state, state:trips ,registration:false, hide_menue:false}
+                trips.end_trip = false;
+                let ui = state.ui;
+                ui.registration = false;
+                ui.hide_menue = false;
+                return {...state, state:trips, state:ui}
             }
             default:
                 return state
