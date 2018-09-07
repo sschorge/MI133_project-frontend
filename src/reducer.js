@@ -34,18 +34,24 @@ import {
                 }
             }
             case SET_LOGIN: {
+                let ui = state.ui;
+                ui.login = true
                 return {
-                    ...state, login:true, user: payload.username, user_id: payload.user_id
+                    ...state, state:ui, user: payload.username, user_id: payload.user_id
                 }
             }
             case SET_LOGOUT: {
+                let ui = state.ui;
+                ui.login = false
                 return {
-                    ...state, login:false, user: ''
+                    ...state, state:ui, user: ''
                 }
             }
             case SET_HIDE_MENUE:{
+                let ui = state.ui;
+                ui.hide_menue = true
                 return {
-                    ...state, hide_menue:true
+                    ...state, state:ui
                 }
             }
             case SET_CREATE_TRIP:{
