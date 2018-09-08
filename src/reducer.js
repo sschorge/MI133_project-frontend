@@ -29,58 +29,87 @@ import {
         const {type, payload} = action
         switch (type) {
             case SET_REGISTRATION: {
-                let ui = state.ui;
-                ui.registration = payload.bool
                 return {               
-                    ...state, state:ui
+                    ...state, 
+					ui: {
+						...state.ui,
+						registration: payload.bool
+					}
                 }
             }
             case SET_LOGIN: {
-                let ui = state.ui;
-                ui.login = true
                 return {
-                    ...state, state:ui, user: payload.username, user_id: payload.user_id
+                    ...state, 
+					ui: {
+						...state.ui,
+						login: true
+					},					
+					user: payload.username, 
+					user_id: payload.user_id
                 }
             }
             case SET_LOGOUT: {
-                let ui = state.ui;
-                ui.login = false
                 return {
-                    ...state, state:ui, user: ''
+                    ...state, 
+					ui: {
+						...state.ui,
+						login: false
+					},
+					user_id: 0,
+					user: ''
                 }
             }
             case SET_HIDE_MENUE:{
-                let ui = state.ui;
-                ui.hide_menue = true
                 return {
-                    ...state, state:ui
+                    ...state, 
+					ui: {
+						...state.ui,
+						hide_menue: true
+					}
                 }
             }
             case SET_CREATE_TRIP:{
-                let trips = state.trips;
-                trips.create_trip = payload.create_trip
                 return {
-                    
-                    ...state, state: trips, hide_menue: payload.hide_menue
+                    ...state, 
+					trips: {
+						...state.trips,
+						create_trip: payload.create_trip
+					},
+					ui: {
+						...state.ui,
+						hide_menu: payload.hide_menue
+					}
                 }
             }
             case SET_SIGN_TRIP:{
-                let trips = state.trips;
-                trips.sign_trip = payload.sign_trip
                 return {
-                    ...state, state: trips, hide_menue: payload.hide_menue
+                    ...state, 
+					trips : {
+						...state.trips,
+						sign_trip: payload.sign_trip
+					},
+					ui: {
+						...state.ui,
+						hide_menue: payload.hide_menue
+					}
                 }
             }
             case RESET_STATE:{
-                let trips = state.trips;
-                trips.create_trip = false;
-                trips.sign_trip = false;
-                trips.start_trip = false;
-                trips.end_trip = false;
-                let ui = state.ui;
-                ui.registration = false;
-                ui.hide_menue = false;
-                return {...state, state:trips, state:ui}
+                return {	
+					...state, 
+					trips: {
+						...state.trips,
+						create_trip: false, 
+						sign_trip: false, 
+						start_trip: false, 
+						end_trip: false 
+					}, 
+					ui: {
+						...state.ui,
+						registration: false,
+						hide_menue: false
+					}
+				}
             }
             default:
                 return state
