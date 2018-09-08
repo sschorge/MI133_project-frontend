@@ -16,11 +16,11 @@ class Trips extends React.Component {
         super()
 
         this._create_trip = () => {
-            this.props.dispatch(set_create_trip({ create_trip: true, hide_menue: true }))
+            this.props.dispatch(set_create_trip(true, true))
         }
 
         this._sign_trip = () => {
-            this.props.dispatch(set_sign_trip({ sign_trip: true, hide_menue: true }))
+            this.props.dispatch(set_sign_trip(true, true))
         };
 
         this._start_trip = () => {
@@ -81,7 +81,7 @@ class Trips extends React.Component {
 function mapStateToProps(state) {
     return {
         user_id: state.user_id,
-        hide_menue: state.hide_menue,
+        hide_menue: state.ui.hide_menue,
         create_trip: state.trips.create_trip,
         sign_trip: state.trips.sign_trip,
         start_trip: state.trips.start_trip,

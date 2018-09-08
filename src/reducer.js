@@ -77,7 +77,7 @@ import {
 					},
 					ui: {
 						...state.ui,
-						hide_menu: payload.hide_menue
+						hide_menue: payload.hide_menue
 					}
                 }
             }

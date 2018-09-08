@@ -172,7 +172,7 @@ class CreateTrip extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-		create_trip: state.create_trip
+		create_trip: state.trips.create_trip
 	};
 }
 export default connect(mapStateToProps)(CreateTrip);

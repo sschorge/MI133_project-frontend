@@ -33,7 +33,7 @@ class App extends Component {
 function mapStateToProps(state) {
   return {
     user: state.user,
-    registration: state.registration,
+    registration: state.ui.registration,
   };
 }
 export default connect(mapStateToProps)(App);

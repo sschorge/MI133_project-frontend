@@ -53,7 +53,7 @@ class Login extends React.Component {
 function mapStateToProps(state) {
     return {
         user: state.user,
-        login: state.login
+        login: state.ui.login
     };
 }
 export default connect(mapStateToProps)(Login);
