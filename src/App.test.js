@@ -3,35 +3,49 @@ import reducer from './reducer';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-describe('the app logic', () => {
-	const middlewares = [ thunk ];
-	const mockStore = configureStore(middlewares);
-	
-	const initialState = { 
-        user:'',
-        user_id:0,
-        ui:{
-            registration:false,
-            hide_menue:false,
-            login:false
-        },
-        trips:{
-            create_trip: false,
-            sign_trip: false,
-            start_trip: false,
-            end_trip: false,
-        }   
-    }
-	
-	const setLoginUser = (user_id, username) => 
+const setLoginUser = (user_id, username) => 
 		actions.set_login({ user: { id: user_id } }, { username:username });
+		
+const randomString = () => {
+	var text = ""
+	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+
+	for (var i=0;i<10;++i)
+		text += possible.charAt(Math.floor(Math.random() * possible.length))
+
+	return text
+}
+
+describe('the app logic', () => {
+	let middlewares, mockStore, initialState;
+	
+	beforeEach(() => {
+		middlewares = [ thunk ];
+		mockStore = configureStore(middlewares);
+	
+		initialState = { 
+			user:'',
+			user_id:0,
+			ui:{
+				registration:false,
+				hide_menue:false,
+				login:false
+			},
+			trips:{
+				create_trip: false,
+				sign_trip: false,
+				start_trip: false,
+				end_trip: false,
+			}   
+		}
+	})
 	
 	it('should return the initial state', () => {
 		const newState = reducer(undefined, {})
 		expect(newState).toEqual(initialState)
 	});
 	
-	it('should set the login', () => {
+	it('should set the login action', () => {
 		const store = mockStore({})
 		
 		const expectedAction = {
@@ -49,12 +63,12 @@ describe('the app logic', () => {
 		// check, whether the state is changed properly by testing the reducer
 		const newState = reducer(undefined, setLoginUser(1, 'John Doe'))
 		
-		expect(newState.ui.login).toEqual(true)
+		expect(newState.ui.login).toBeTruthy()
 		expect(newState.user).toEqual('John Doe')
 		expect(newState.user_id).toEqual(1)
 	});
 
-	it('should reset the state', () => {
+	it('should reset the state (RESET_STATE action)', () => {
 		const store = mockStore({})
 		
 		// first, we have an arbitrarily state, where the user John Doe is logged in
@@ -100,7 +114,7 @@ describe('the app logic', () => {
 		expect(newState).toEqual(expectedState);
 	});
 	
-	it('should set the regisration', () => {
+	it('should set the regisration action', () => {
 		const store = mockStore({})
 		
 		const expectedAction = { 
@@ -114,10 +128,10 @@ describe('the app logic', () => {
 		
 		// check, whether the state is changed properly by testing the reducer
 		const newState = reducer(undefined, actions.set_registration({bool:true}))
-		expect(newState.ui.registration).toEqual(true)
+		expect(newState.ui.registration).toBeTruthy()
 	});
 	
-	it('should create a trip', () => {
+	it('should set the SET_CREATE_TRIP action', () => {
 		const store = mockStore({})
 		
 		const expectedAction = { 
@@ -135,11 +149,55 @@ describe('the app logic', () => {
 		// check, whether the state is changed properly by testing the reducer
 		const newState = reducer(undefined, actions.set_create_trip(true, true))
 		
-		expect(newState.trips.create_trip).toEqual(true)
-		expect(newState.ui.hide_menu).toEqual(true)
+		expect(newState.trips.create_trip).toBeTruthy()
+		expect(newState.ui.hide_menue).toBeTruthy()
 	});
 	
-	it('should sign a trip', () => {
+	it('should set the SET_START_TRIP action', () => {
+		const store = mockStore({})
+		
+		const expectedAction = { 
+			type: actions.SET_START_TRIP, 
+			payload: {
+				start_trip: true, 
+				hide_menue: true
+			}
+		}
+		
+		// check, whether the action is dispatched properly
+		store.dispatch(actions.set_start_trip(true, true))
+		expect(store.getActions()[0]).toEqual(expectedAction)
+		
+		// check, whether the state is changed properly by testing the reducer
+		const newState = reducer(undefined, actions.set_start_trip(true, true))
+		
+		expect(newState.trips.start_trip).toBeTruthy()
+		expect(newState.ui.hide_menue).toBeTruthy()
+	});
+	
+	it('should set the SET_END_TRIP action', () => {
+		const store = mockStore({})
+		
+		const expectedAction = { 
+			type: actions.SET_END_TRIP, 
+			payload: {
+				end_trip: true, 
+				hide_menue: true
+			}
+		}
+		
+		// check, whether the action is dispatched properly
+		store.dispatch(actions.set_end_trip(true, true))
+		expect(store.getActions()[0]).toEqual(expectedAction)
+		
+		// check, whether the state is changed properly by testing the reducer
+		const newState = reducer(undefined, actions.set_end_trip(true, true))
+		
+		expect(newState.trips.end_trip).toBeTruthy()
+		expect(newState.ui.hide_menue).toBeTruthy()
+	});
+	
+	it('should set the SET_SIGN_TRIP action', () => {
 		const store = mockStore({})
 		
 		const expectedAction = { 
@@ -157,12 +215,11 @@ describe('the app logic', () => {
 		// check, whether the state is changed properly by testing the reducer
 		const newState = reducer(undefined, actions.set_sign_trip(true, true))
 		
-		console.log(newState)
-		expect(newState.trips.sign_trip).toEqual(true)
-		expect(newState.ui.hide_menue).toEqual(true)
+		expect(newState.trips.sign_trip).toBeTruthy()
+		expect(newState.ui.hide_menue).toBeTruthy()
 	});
 	
-	it('should hide the menu', () => {
+	it('should set the hide menu action', () => {
 		const store = mockStore({})
 	
 		// check, whether the action is dispatched properly
@@ -171,10 +228,10 @@ describe('the app logic', () => {
 		
 		// check, whether the state is changed properly by testing the reducer
 		const newState = reducer(undefined, actions.set_hide_menue())
-		expect(newState.ui.hide_menue).toEqual(true)
+		expect(newState.ui.hide_menue).toBeTruthy()
 	});
 	
-	it('should set the logout', () => {
+	it('should set the logout action', () => {
 		const store = mockStore({})
 		
 		// check, whether the action is dispatched properly
@@ -184,7 +241,7 @@ describe('the app logic', () => {
 		// check, whether the state is changed properly by testing the reducer
 		const newState = reducer(undefined, actions.set_logout())
 		
-		expect(newState.ui.login).toEqual(false)
+		expect(newState.ui.login).toBeFalsy()
 		expect(newState.user).toEqual('')
 		expect(newState.user_id).toEqual(0)
 	});	
@@ -192,16 +249,14 @@ describe('the app logic', () => {
 	it('should request register at the backend', () => {
 		const store = mockStore({})
 		
-		return store.dispatch(actions.requestRegister('username', 'password', 'John', 'Doe'))
+		return store.dispatch(actions.requestRegister(randomString(), 'password', 'John', 'Doe'))
 			.then(() => {
 				const expectedAction = { 
 					type: actions.SET_REGISTRATION, 
 					payload: {bool:true}
 				}
-				const actions = store.getActions()
-				
 				// check, whether the action is dispatched properly
-				expect(actions[0]).toEqual(expectedAction)
+				expect(store.getActions()[0]).toEqual(expectedAction)
 			})
 	});
 
@@ -211,7 +266,7 @@ describe('the app logic', () => {
 		return store.dispatch(actions.requestLogin('username', 'password'))
 			.then(() => {
 				// check, whether the action is dispatched properly
-				expect(store.getActions()[0].type).toEqual(actions.SET_LOGIN)
+				expect(store.getActions()[0]).toEqual(actions.SET_LOGIN)
 			})
 	});
 	
@@ -224,7 +279,58 @@ describe('the app logic', () => {
 					type: actions.SET_CREATE_TRIP, 
 					payload: {
 						create_trip: true, 
-						hide_menue: false
+						hide_menue: true
+					}
+				}
+				// check, whether the action is dispatched properly
+				expect(store.getActions()[0]).toEqual(expectedAction)
+			})
+	});
+	
+	it('should start a trip at the backend', () => {
+		const store = mockStore({})
+		
+		return store.dispatch(actions.startTrip(1506067538, 1))
+			.then(() => {
+				const expectedAction =  { 
+					type: actions.SET_START_TRIP, 
+					payload: {
+						start_trip: true, 
+						hide_menue: true
+					}
+				}
+				// check, whether the action is dispatched properly
+				expect(store.getActions()[0]).toEqual(expectedAction)
+			})
+	});
+	
+	it('should end a trip at the backend', () => {
+		const store = mockStore({})
+		
+		return store.dispatch(actions.endTrip(1506067600, 1))
+			.then(() => {
+				const expectedAction =  { 
+					type: actions.SET_END_TRIP, 
+					payload: {
+						end_trip: true, 
+						hide_menue: true
+					}
+				}
+				// check, whether the action is dispatched properly
+				expect(store.getActions()[0]).toEqual(expectedAction)
+			})
+	});
+	
+	it('should join a trip at the backend', () => {
+		const store = mockStore({})
+		
+		return store.dispatch(actions.joinTrip(1, 1))
+			.then(() => {
+				const expectedAction =  { 
+					type: actions.SET_SIGN_TRIP, 
+					payload: {
+						sign_trip: true, 
+						hide_menue: true
 					}
 				}
 				// check, whether the action is dispatched properly

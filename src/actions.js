@@ -36,7 +36,7 @@ export const set_login = (data, daten) => {
 export const requestLogin = (username, password) => async dispatch => {
     let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/login";
     let daten = { username: username, password: password };
-    fetch(url, {
+    return fetch(url, {
         method: "POST",
         body: JSON.stringify(daten),
         headers: {
@@ -51,7 +51,7 @@ export const requestRegister = (username, password, first_name, last_name) => as
     try {
         let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/register";
         let daten = { username: username, password: password, first_name: first_name, last_name: last_name };
-        fetch(url, {
+        return fetch(url, {
             method: "POST",
             body: JSON.stringify(daten),
             headers: {
@@ -61,7 +61,7 @@ export const requestRegister = (username, password, first_name, last_name) => as
         }).then(res => res.json())
             .then(data => {
                 alert(data.message)
-                dispatch(set_registration({ bool: !data.success }))
+                dispatch(set_registration({ bool: data.success }))
             })
     } catch (e) {
         console.error(e)
@@ -72,7 +72,7 @@ export const createTrip = (boat_id, crew, latitude, longitude, departure, arriva
     try {
         let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/create_trip";
         let daten = { boat_id, crew, latitude, longitude, departure, arrival };
-        fetch(url, {
+        return fetch(url, {
             method: "POST",
             body: JSON.stringify(daten),
             headers: {
@@ -86,7 +86,7 @@ export const createTrip = (boat_id, crew, latitude, longitude, departure, arriva
                 } else {
                     alert("Create Trip failed!")
                 }
-                dispatch(set_create_trip(!data.success, false))
+                dispatch(set_create_trip(data.success, data.success))
             })
     } catch (e) {
         console.error(e)
@@ -99,7 +99,7 @@ export const joinTrip = (userid, tripid) => async dispatch => {
         let member_id = userid
         let trip_id = tripid
         let daten = { trip_id, member_id };
-        fetch(url, {
+        return fetch(url, {
             method: "POST",
             body: JSON.stringify(daten),
             headers: {
@@ -109,6 +109,7 @@ export const joinTrip = (userid, tripid) => async dispatch => {
         }).then(res => res.json())
             .then(data => {
                 console.log(data)
+				dispatch(set_sign_trip(data.success, data.success))
             })
     } catch (e) {
         console.error(e)
@@ -121,7 +122,7 @@ export const startTrip = (departure, tripid) => async dispatch => {
         //let member_id = userid
         let trip_id = tripid
         let daten = { trip_id, departure };
-        fetch(url, {
+        return fetch(url, {
             method: "POST",
             body: JSON.stringify(daten),
             headers: {
@@ -131,6 +132,7 @@ export const startTrip = (departure, tripid) => async dispatch => {
         }).then(res => res.json())
             .then(data => {
                 console.log(data)
+				dispatch(set_start_trip(data.success, data.success))
             })
     } catch (e) {
         console.error(e)
@@ -143,7 +145,7 @@ export const endTrip = (arrival, tripid) => async dispatch => {
         //let member_id = userid
         let trip_id = tripid
         let daten = { trip_id, arrival };
-        fetch(url, {
+        return fetch(url, {
             method: "POST",
             body: JSON.stringify(daten),
             headers: {
@@ -153,6 +155,7 @@ export const endTrip = (arrival, tripid) => async dispatch => {
         }).then(res => res.json())
             .then(data => {
                 console.log(data)
+				dispatch(set_end_trip(data.success, data.success))
             })
     } catch (e) {
         console.error(e)
