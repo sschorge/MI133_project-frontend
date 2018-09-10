@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import GoogleMapReact from 'google-map-react';
 import marker from './marker.png';
 import './App.css';
-import {createTrip} from './actions'
+import { createTrip } from './actions'
 
 const AnyReactComponent = ({ text }) => <div> <img src={marker} alt="Marker" height="15" width="15" /> </div>;
 
@@ -33,7 +33,7 @@ class CreateTrip extends React.Component {
 
 		this.handleboatwithcrew = (e) => {
 			const value = this.state.boats.filter(function (item) {
-				return item.id === parseInt(e.target.value,10)
+				return item.id === parseInt(e.target.value, 10)
 			})
 			this.setState({
 				selected_boat_id: value[0].id,
@@ -51,7 +51,7 @@ class CreateTrip extends React.Component {
 		}
 		this._onButtonClickCreateTrip = () => {
 			let departure = this.state.dep_date + " " + this.state.dep_time;
-			let dep_unix = (new Date(departure.replace(/-/g, '/')).getTime()/1000)
+			let dep_unix = (new Date(departure.replace(/-/g, '/')).getTime() / 1000)
 			let arrival = this.state.arrival_date + " " + this.state.dep_time;
 			let arrival_unix = (new Date(arrival.replace(/-/g, '/')).getTime() / 1000);
 			let lat = this.state.lat * 1000000
@@ -65,7 +65,7 @@ class CreateTrip extends React.Component {
 
 			this.props.dispatch(createTrip(this.state.selected_boat_id, this.state.crew_names, slat, slng, dep_unix, arrival_unix))
 			//boat, crew, latitude, longitude, departure, arrival
-        }
+		}
 	}
 
 	handleClick(letter) {
@@ -118,7 +118,7 @@ class CreateTrip extends React.Component {
 			boats.unshift(' ')
 		}
 
-		const {dep_date, dep_time, arrival_date, arrival_time } = this.state
+		const { dep_date, dep_time, arrival_date, arrival_time } = this.state
 		return <div className="CreateTrip">
 
 			<h4>Create a Trip</h4>
