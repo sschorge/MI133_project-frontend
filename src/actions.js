@@ -14,13 +14,17 @@ export const SET_HIDE_MENUE = 'SET_HIDE_MENUE'
 export const set_hide_menue = () => ({ type: SET_HIDE_MENUE })
 
 export const SET_CREATE_TRIP = 'SET_CREATE_TRIP'
-export const set_create_trip = (create_trip, hide_menue) => ({ type: SET_CREATE_TRIP, payload: { create_trip, hide_menue }})
+export const set_create_trip = (create_trip, hide_menue) => ({ type: SET_CREATE_TRIP, payload: { create_trip, hide_menue } })
 
 export const SET_SIGN_TRIP = 'SET_SIGN_TRIP'
-export const set_sign_trip = (sign_trip, hide_menue) => ({ type: SET_SIGN_TRIP, payload: { sign_trip, hide_menue }})
+export const set_sign_trip = (sign_trip, hide_menue) => ({ type: SET_SIGN_TRIP, payload: { sign_trip, hide_menue } })
 
 export const SET_START_TRIP = 'SET_START_TRIP'
-export const set_start_trip = (start_trip, hide_menue) => ({ type: SET_START_TRIP, payload: {start_trip, hide_menue}})
+export const set_start_trip = (start_trip, hide_menue) => ({ type: SET_START_TRIP, payload: { start_trip, hide_menue } })
+
+export const SET_END_TRIP = 'SET_END_TRIP'
+export const set_end_trip = (end_trip, hide_menue) => ({ type: SET_END_TRIP, payload: { end_trip, hide_menue } })
+
 
 export const SET_LOGIN = 'LOGIN'
 export const set_login = (data, daten) => {
@@ -99,7 +103,7 @@ export const joinTrip = (userid, tripid) => async dispatch => {
         let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/join_trip";
         let member_id = userid
         let trip_id = tripid
-        let daten = {trip_id,member_id };
+        let daten = { trip_id, member_id };
         console.log(daten)
         fetch(url, {
             method: "POST",
@@ -123,7 +127,7 @@ export const startTrip = (departure, tripid) => async dispatch => {
         let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/start_trip";
         //let member_id = userid
         let trip_id = tripid
-        let daten = {trip_id, departure};
+        let daten = { trip_id, departure };
         console.log(daten)
         fetch(url, {
             method: "POST",
@@ -139,6 +143,43 @@ export const startTrip = (departure, tripid) => async dispatch => {
     } catch (e) {
         console.error(e)
     }
+}
+
+export const endTrip = (arrival, tripid) => async dispatch => {
+    console.log("joinTrip funcsion " + arrival + " " + tripid)
+    try {
+        let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/end_trip";
+        //let member_id = userid
+        let trip_id = tripid
+        let daten = { trip_id, arrival };
+        console.log(daten)
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify(daten),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "same-origin"
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+export function timeConverter(UNIX_timestamp){
+	var a = new Date(UNIX_timestamp * 1000);
+	var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+	var year = a.getFullYear();
+	var month = months[a.getMonth()];
+	var date = a.getDate();
+	var hour = a.getHours();
+	var min = a.getMinutes();
+
+	var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
+	return time;
 }
 
 
