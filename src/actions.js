@@ -5,7 +5,18 @@ export const SET_REGISTRATION = 'REGISTRATION'
 export const set_registration = (bool) => ({ type: SET_REGISTRATION, payload: bool })
 
 export const SET_LOGOUT = 'LOGOUT'
-export const set_logout = () => ({ type: SET_LOGOUT })
+export const set_logout = () => {
+    let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/logout";
+    fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        credentials: "same-origin"
+    }).then(res => res.json())
+        .then(data => { alert(data.message) })
+    return ({ type: SET_LOGOUT })
+}
 
 export const RESET_STATE = 'RESET_STATE'
 export const reset_state = () => ({ type: RESET_STATE })
@@ -28,7 +39,7 @@ export const set_end_trip = (end_trip, hide_menue) => ({ type: SET_END_TRIP, pay
 
 export const SET_LOGIN = 'LOGIN'
 export const set_login = (data, daten) => {
-    let user_id = data.user.id;
+    let user_id = data.user;
     let username = daten.username;
     return { type: SET_LOGIN, payload: { username, user_id } }
 }
@@ -44,7 +55,14 @@ export const requestLogin = (username, password) => async dispatch => {
         },
         credentials: "same-origin"
     }).then(res => res.json())
-        .then(data => dispatch(set_login(data, daten)))
+        .then(data => {
+            if (data.success) {
+                dispatch(set_login(data, daten))
+            } else {
+                alert(data.message)
+            }
+        }
+        )
 }
 
 export const requestRegister = (username, password, first_name, last_name) => async dispatch => {
@@ -159,17 +177,17 @@ export const endTrip = (arrival, tripid) => async dispatch => {
     }
 }
 
-export function timeConverter(UNIX_timestamp){
-	var a = new Date(UNIX_timestamp * 1000);
-	var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-	var year = a.getFullYear();
-	var month = months[a.getMonth()];
-	var date = a.getDate();
-	var hour = a.getHours();
-	var min = a.getMinutes();
+export function timeConverter(UNIX_timestamp) {
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
 
-	var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
-	return time;
+    var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
+    return time;
 }
 
 export function checkID(array, member_id) {
