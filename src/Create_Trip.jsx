@@ -82,7 +82,6 @@ class CreateTrip extends React.Component {
 		}
 	}
 	createTable = () => {
-		console.log("createTable")
 		let table = []
 		let tbody = []
 		tbody.push(<tr><td>Crewnames</td></tr>)
@@ -97,7 +96,6 @@ class CreateTrip extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log("componentdidmount wird ausgeführt");
 		let boats = [];
 		fetch('http://rcpoonkk8vbqkyiw.myfritz.net:3000/get_boats')
 			.then(response => { return response.json() })
@@ -112,7 +110,6 @@ class CreateTrip extends React.Component {
 	}
 
 	render() {
-		console.log(this.state)
 		let boats = this.state.boats;
 		if (boats[0] !== ' ') {
 			boats.unshift(' ')
