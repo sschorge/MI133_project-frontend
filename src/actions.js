@@ -19,6 +19,9 @@ export const set_create_trip = (create_trip, hide_menue) => ({ type: SET_CREATE_
 export const SET_SIGN_TRIP = 'SET_SIGN_TRIP'
 export const set_sign_trip = (sign_trip, hide_menue) => ({ type: SET_SIGN_TRIP, payload: { sign_trip, hide_menue }})
 
+export const SET_START_TRIP = 'SET_START_TRIP'
+export const set_start_trip = (start_trip, hide_menue) => ({ type: SET_START_TRIP, payload: {start_trip, hide_menue}})
+
 export const SET_LOGIN = 'LOGIN'
 export const set_login = (data, daten) => {
     let user_id = data.user.id;
@@ -97,6 +100,30 @@ export const joinTrip = (userid, tripid) => async dispatch => {
         let member_id = userid
         let trip_id = tripid
         let daten = {trip_id,member_id };
+        console.log(daten)
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify(daten),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "same-origin"
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+export const startTrip = (departure, tripid) => async dispatch => {
+    console.log("joinTrip funcsion " + departure + " " + tripid)
+    try {
+        let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/start_trip";
+        //let member_id = userid
+        let trip_id = tripid
+        let daten = {trip_id, departure};
         console.log(daten)
         fetch(url, {
             method: "POST",

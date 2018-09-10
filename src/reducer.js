@@ -6,7 +6,8 @@ import {
     SET_LOGIN,
     SET_LOGOUT,
     SET_CREATE_TRIP,
-    SET_SIGN_TRIP
+    SET_SIGN_TRIP,
+    SET_START_TRIP
     } from './actions'
     
     const initialState = () => ({
@@ -94,6 +95,20 @@ import {
 					}
                 }
             }
+            case SET_START_TRIP:{
+                return {
+                    ...state,
+                    trips : {
+                        ...state.trips,
+                        start_trip: payload.start_trip
+                    },
+                    ui : {
+                        ...state.ui,
+                        hide_menue: payload.hide_menue
+                    }
+                }
+            }
+
             case RESET_STATE:{
                 return {	
 					...state, 
