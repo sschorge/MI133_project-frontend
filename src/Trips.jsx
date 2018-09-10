@@ -6,9 +6,11 @@ import {
     reset_state,
     set_create_trip,
     set_sign_trip,
+    set_start_trip
 } from './actions'
 import CreateTrip from './Create_Trip';
-import SignTrip from './Sign_Trip'
+import SignTrip from './Sign_Trip';
+import StartTrip from './Start_Trip';
 import './App.css';
 
 class Trips extends React.Component {
@@ -24,7 +26,7 @@ class Trips extends React.Component {
         };
 
         this._start_trip = () => {
-            this.props.dispatch(set_hide_menue())
+            this.props.dispatch(set_start_trip(true,true))
         }
 
         this._end_trip = () => {
@@ -35,11 +37,11 @@ class Trips extends React.Component {
         }
 
         this._back = () => {
-             this.props.dispatch(reset_state())
+            this.props.dispatch(reset_state())
         }
     }
     render() {
-        const { hide_menue, create_trip, sign_trip } = this.props;
+        const { hide_menue, create_trip, sign_trip, start_trip } = this.props;
 
         return <div>
             {!hide_menue ?
@@ -66,12 +68,22 @@ class Trips extends React.Component {
                     : false
                 }
             </div>
-            {create_trip ?
-                <div>
-                    <CreateTrip />
-                </div>
-                : false
-            }
+            <div>
+                {create_trip ?
+                    <div>
+                        <CreateTrip />
+                    </div>
+                    : false
+                }
+            </div>
+            <div>
+                {start_trip ?
+                    <div>
+                        <StartTrip />
+                    </div>
+                    : false
+                }
+            </div>
             <div>
                 <input type="button" value="back" onClick={this._back} />
             </div>
