@@ -12,15 +12,15 @@ class App extends Component {
       <div className="App">
         <h2> Water Sports Lookbook</h2>
         <div class="row">
-          <div class="col-4"> </div>
+          <div class="col"> </div>
           {!registration ?
-            <div class="col-4">
+            <div class="col-6">
               <h4>Welcome {user}</h4>
               <Trips />
             </div> :
             false
           }
-          <div class="col-4" >
+          <div class="col" >
             <Login />
             <Register />
           </div>
