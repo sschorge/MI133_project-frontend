@@ -46,29 +46,33 @@ class StartTrip extends React.Component {
         let user_id = this.props.user_id
         let user_id_arr = []
         for (let i = 0; i < this.state.data.length; i++) {
-            if (this.state.data[i].active === 0) {
-                if (trip_id === this.state.data[i].trip_id && i > 0) {
-                    crew_names.push(<br />, this.state.data[i].first_name + " " + this.state.data[i].last_name)
-                    user_id_arr.push(this.state.data[i].member_id)
-                } else {
-                    if (i > 0) {
-                        children.push(<td nowrap="true">{crew_names}</td>)
-                        if(checkID(user_id_arr,user_id)){
-                            tbody.push(<tr>{children}</tr>)
-                        }
-                        children = []
-                        crew_names = []
-                        user_id_arr = []
+            if (trip_id === this.state.data[i].trip_id && i > 0) {
+                crew_names.push(<br />, this.state.data[i].first_name + " " + this.state.data[i].last_name)
+                user_id_arr.push(this.state.data[i].member_id)
+            } else {
+                if (i > 0) {
+                    children.push(<td nowrap="true">{crew_names}</td>)
+                    if ((checkID(user_id_arr, user_id)) && (this.state.data[i-1].active === 0)) {
+                        tbody.push(<tr>{children}</tr>)
                     }
-                    children.push(<td>
-                        <button id={this.state.data[i].trip_id} value={this.state.data[i].trip_id} onClick={evt => this._onButtonClickJoinTrip(evt)} >Start Trip</button>
-                    </td>)
-                    children.push(<td>{timeConverter(this.state.data[i].arrival)}</td>)
-                    children.push(<td>{this.state.data[i].boat_name}</td>)
-                    children.push(<td>{this.state.data[i].latitude + " " + this.state.data[i].longitude}</td>)
-                    crew_names.push(this.state.data[i].first_name + " " + this.state.data[i].last_name)
-                    user_id_arr.push(this.state.data[i].member_id)
-                    trip_id = this.state.data[i].trip_id
+                    children = []
+                    crew_names = []
+                    user_id_arr = []
+                }
+                children.push(<td>
+                    <button id={this.state.data[i].trip_id} value={this.state.data[i].trip_id} onClick={evt => this._onButtonClickJoinTrip(evt)} >Start Trip</button>
+                </td>)
+                children.push(<td>{timeConverter(this.state.data[i].arrival)}</td>)
+                children.push(<td>{this.state.data[i].boat_name}</td>)
+                children.push(<td>{this.state.data[i].latitude + " " + this.state.data[i].longitude}</td>)
+                crew_names.push(this.state.data[i].first_name + " " + this.state.data[i].last_name)
+                user_id_arr.push(this.state.data[i].member_id)
+                trip_id = this.state.data[i].trip_id
+            }
+            if (i === this.state.data.length - 1) {
+                children.push(<td nowrap="true">{crew_names}</td>)
+                if ((checkID(user_id_arr, user_id)) && (this.state.data[i].active === 0)) {
+                    tbody.push(<tr>{children}</tr>)
                 }
             }
         }
@@ -89,7 +93,7 @@ class StartTrip extends React.Component {
         }).then(response => {
             return response.json()
         })
-            .then(data => { console.log(data),this.setState({ data: data.trips }) });
+            .then(data => { console.log(data), this.setState({ data: data.trips }) });
     }
 
     render() {

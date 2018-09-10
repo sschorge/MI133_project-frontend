@@ -57,7 +57,9 @@ class SignTrip extends React.Component {
 					if (names.length < this.state.data[i - 1].boat_size) {
 						children.push(<td><button id={this.state.data[i - 1].trip_id} value={this.state.data[i - 1].trip_id} onClick={evt => this._onButtonClickJoinTrip(evt)} >Join Trip</button></td>)
 					}
-					tbody.push(<tr>{children}</tr>)
+					if(this.state.data[i-1].active === 0){
+						tbody.push(<tr>{children}</tr>)
+					}
 					children = []
 					crew_names = []
 					names = []
@@ -72,14 +74,15 @@ class SignTrip extends React.Component {
 			}
 
 			if (i === this.state.data.length - 1) {
-				console.log(i)
-				console.log(children)
 				children.push(<td nowrap="true">{crew_names}</td>)
 				children.push(<td><button id={this.state.data[i].trip_id} value={this.state.data[i].trip_id} onClick={evt => this._onButtonClickJoinTrip(evt)} >Join Trip</button></td>)
-				tbody.push(<tr>{children}</tr>)
+				if(this.state.data[i].active === 0){
+					tbody.push(<tr>{children}</tr>)
+				}
 			}
 		}
-		table.push(<tbody>{tbody}</tbody>)
+
+		table.push(<tbody> {tbody}</tbody >)
 		return table
 	}
 
