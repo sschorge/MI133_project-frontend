@@ -52,7 +52,7 @@ class CreateTrip extends React.Component {
 		this._onButtonClickCreateTrip = () => {
 			let departure = this.state.dep_date + " " + this.state.dep_time;
 			let dep_unix = (new Date(departure.replace(/-/g, '/')).getTime() / 1000)
-			let arrival = this.state.arrival_date + " " + this.state.dep_time;
+			let arrival = this.state.arrival_date + " " + this.state.arrival_time;
 			let arrival_unix = (new Date(arrival.replace(/-/g, '/')).getTime() / 1000);
 			let lat = this.state.lat * 1000000
 			let tmp = Math.round(lat)
@@ -61,7 +61,6 @@ class CreateTrip extends React.Component {
 			let lng = this.state.lng * 1000000
 			let tmp2 = Math.round(lng)
 			let slng = tmp2 / 1000000
-
 
 			this.props.dispatch(createTrip(this.state.selected_boat_id, this.state.crew_names, slat, slng, dep_unix, arrival_unix))
 			//boat, crew, latitude, longitude, departure, arrival
