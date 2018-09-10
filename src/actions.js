@@ -34,8 +34,6 @@ export const set_login = (data, daten) => {
 }
 
 export const requestLogin = (username, password) => async dispatch => {
-    //alert("requestLogin wird ausgeführt \n" + "username: " + username + "\n" + "password: " + password)
-    console.log("in requestLogin " + username, password);
     let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/login";
     let daten = { username: username, password: password };
     fetch(url, {
@@ -74,7 +72,6 @@ export const createTrip = (boat_id, crew, latitude, longitude, departure, arriva
     try {
         let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/create_trip";
         let daten = { boat_id, crew, latitude, longitude, departure, arrival };
-        console.log(daten)
         fetch(url, {
             method: "POST",
             body: JSON.stringify(daten),
@@ -84,7 +81,6 @@ export const createTrip = (boat_id, crew, latitude, longitude, departure, arriva
             credentials: "same-origin"
         }).then(res => res.json())
             .then(data => {
-                console.log(data)
                 if (data.success) {
                     alert("Create Trip was Successful!")
                 } else {
@@ -98,13 +94,11 @@ export const createTrip = (boat_id, crew, latitude, longitude, departure, arriva
 }
 
 export const joinTrip = (userid, tripid) => async dispatch => {
-    console.log("joinTrip funcsion " + userid + " " + tripid)
     try {
         let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/join_trip";
         let member_id = userid
         let trip_id = tripid
         let daten = { trip_id, member_id };
-        console.log(daten)
         fetch(url, {
             method: "POST",
             body: JSON.stringify(daten),
@@ -122,13 +116,11 @@ export const joinTrip = (userid, tripid) => async dispatch => {
 }
 
 export const startTrip = (departure, tripid) => async dispatch => {
-    console.log("joinTrip funcsion " + departure + " " + tripid)
     try {
         let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/start_trip";
         //let member_id = userid
         let trip_id = tripid
         let daten = { trip_id, departure };
-        console.log(daten)
         fetch(url, {
             method: "POST",
             body: JSON.stringify(daten),
@@ -146,13 +138,11 @@ export const startTrip = (departure, tripid) => async dispatch => {
 }
 
 export const endTrip = (arrival, tripid) => async dispatch => {
-    console.log("joinTrip funcsion " + arrival + " " + tripid)
     try {
         let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/end_trip";
         //let member_id = userid
         let trip_id = tripid
         let daten = { trip_id, arrival };
-        console.log(daten)
         fetch(url, {
             method: "POST",
             body: JSON.stringify(daten),
@@ -182,5 +172,12 @@ export function timeConverter(UNIX_timestamp){
 	return time;
 }
 
+export function checkID(array, member_id) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] === member_id)
+            return true;
+    }
+    return false;
+}
 
 //http://rcpoonkk8vbqkyiw.myfritz.net:3000/login
