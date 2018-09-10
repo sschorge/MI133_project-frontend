@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './App.css';
-import { endTrip, timeConverter } from './actions'
+import { endTrip, timeConverter, checkID } from './actions'
 
 class EndTrip extends React.Component {
     constructor() {
@@ -42,16 +42,22 @@ class EndTrip extends React.Component {
         let children = []
         let crew_names = []
         let trip_id = -1
+        let user_id = this.props.user_id
+        let user_id_arr = []
         for (let i = 0; i < this.state.data.length; i++) {
             if (this.state.data[i].active === 1) {
                 if (trip_id === this.state.data[i].trip_id && i > 0) {
                     crew_names.push(<br />, this.state.data[i].first_name + " " + this.state.data[i].last_name)
+                    user_id_arr.push(this.state.data[i].member_id)
                 } else {
                     if (i > 0) {
                         children.push(<td nowrap="true">{crew_names}</td>)
-                        tbody.push(<tr>{children}</tr>)
+                        if(checkID(user_id_arr,user_id)){
+                            tbody.push(<tr>{children}</tr>)
+                        }
                         children = []
                         crew_names = []
+                        user_id_arr = []
                     }
                     children.push(<td>{timeConverter(this.state.data[i].departure)}</td>)
                     children.push(<td>
@@ -60,6 +66,7 @@ class EndTrip extends React.Component {
                     children.push(<td>{this.state.data[i].boat_name}</td>)
                     children.push(<td>{this.state.data[i].latitude + " " + this.state.data[i].longitude}</td>)
                     crew_names.push(this.state.data[i].first_name + " " + this.state.data[i].last_name)
+                    user_id_arr.push(this.state.data[i].member_id)
                     trip_id = this.state.data[i].trip_id
                 }
             }
@@ -81,7 +88,7 @@ class EndTrip extends React.Component {
         }).then(response => {
             return response.json()
         })
-            .then(data => {console.log(data), this.setState({ data: data.trips }) });
+            .then(data => {this.setState({ data: data.trips }) });
     }
 
     render() {
