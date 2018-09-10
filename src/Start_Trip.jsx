@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-
 import './App.css';
-import { startTrip } from './actions'
+import { startTrip, timeConverter } from './actions'
 
 class StartTrip extends React.Component {
     constructor() {
@@ -16,40 +14,56 @@ class StartTrip extends React.Component {
         };
         this._onButtonClickJoinTrip = (event) => {
             let tripid = parseInt(event.target.value, 10)
-            let departure = Date.now();
+            let departure = Math.round(Date.now() / 1000);
             this.props.dispatch(startTrip(departure, tripid))
-            document.getElementById('tripid').style.visibility = "hidden";
+            this.forceUpdate(function () {
+                let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/view_trips";
+                let daten = { id: "all" };
+                fetch(url, {
+                    method: "POST",
+                    body: JSON.stringify(daten),
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: "same-origin"
+                }).then(response => {
+                    return response.json()
+                })
+                    .then(data => { this.setState({ data: data.trips }) });
+            })
+
         }
     }
 
     createTable = () => {
-        console.log("createTable")
-        console.log(this.state.data);
         let table = []
         let tbody = []
-        tbody.push(<tr><td>Departure</td><td>Arrival</td><td>Boat</td><td>Location</td><td>Member</td><td>Join</td></tr>)
+        tbody.push(<tr><td>Departure</td><td>Arrival</td><td>Boat</td><td>Location</td><td>Member</td></tr>)
         // Outer loop to create parent
         let children = []
         let crew_names = []
         let trip_id = -1
+        let user_id = this.props.user_id
         for (let i = 0; i < this.state.data.length; i++) {
-            if (trip_id === this.state.data[i].trip_id && i > 0) {
-                crew_names.push(<br />, this.state.data[i].first_name + " " + this.state.data[i].last_name)
-            } else {
-                if (i > 0) {
-                    children.push(<td nowrap="true">{crew_names}</td>)
-                    tbody.push(<tr>{children}</tr>)
-                    children = []
-                    crew_names = []
+            if (this.state.data[i].active === 0) {
+                if (trip_id === this.state.data[i].trip_id && i > 0) {
+                    crew_names.push(<br />, this.state.data[i].first_name + " " + this.state.data[i].last_name)
+                } else {
+                    if (i > 0) {
+                        children.push(<td nowrap="true">{crew_names}</td>)
+                        tbody.push(<tr>{children}</tr>)
+                        children = []
+                        crew_names = []
+                    }
+                    children.push(<td>
+                        <button id={this.state.data[i].trip_id} value={this.state.data[i].trip_id} onClick={evt => this._onButtonClickJoinTrip(evt)} >Start Trip</button>
+                    </td>)
+                    children.push(<td>{timeConverter(this.state.data[i].arrival)}</td>)
+                    children.push(<td>{this.state.data[i].boat_name}</td>)
+                    children.push(<td>{this.state.data[i].latitude + " " + this.state.data[i].longitude}</td>)
+                    crew_names.push(this.state.data[i].first_name + " " + this.state.data[i].last_name)
+                    trip_id = this.state.data[i].trip_id
                 }
-                children.push(<td>
-                    <button id={this.state.data[i].trip_id} value={this.state.data[i].trip_id} onClick={evt => this._onButtonClickJoinTrip(evt)} >Start Trip</button>
-                </td>)
-                children.push(<td>{this.state.data[i].arrival}</td>)
-                children.push(<td>{this.state.data[i].boat_name}</td>)
-                children.push(<td>{this.state.data[i].latitude + " " + this.state.data[i].longitude}</td>)
-                crew_names.push(this.state.data[i].first_name + " " + this.state.data[i].last_name)
-                trip_id = this.state.data[i].trip_id
             }
         }
         table.push(<tbody>{tbody}</tbody>)
@@ -67,10 +81,9 @@ class StartTrip extends React.Component {
             },
             credentials: "same-origin"
         }).then(response => {
-            console.log(response)
             return response.json()
         })
-            .then(data => { this.setState({ data: data.trips }) });
+            .then(data => { console.log(data),this.setState({ data: data.trips }) });
     }
 
     render() {
