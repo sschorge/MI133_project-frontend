@@ -44,7 +44,12 @@ export const requestLogin = (username, password) => async dispatch => {
         },
         credentials: "same-origin"
     }).then(res => res.json())
-        .then(data => dispatch(set_login(data, daten)))
+        .then(data => {
+			if (data.success)
+				dispatch(set_login(data, daten))
+			else
+				console.error('user ' + username + ' could not be logged in')
+		})
 }
 
 export const requestRegister = (username, password, first_name, last_name) => async dispatch => {

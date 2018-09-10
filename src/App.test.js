@@ -4,7 +4,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 const setLoginUser = (user_id, username) => 
-		actions.set_login({ user: { id: user_id } }, { username:username });
+		actions.set_login({ user: user_id }, { username:username });
 		
 const randomString = () => {
 	var text = ""
@@ -266,7 +266,7 @@ describe('the app logic', () => {
 		return store.dispatch(actions.requestLogin('username', 'password'))
 			.then(() => {
 				// check, whether the action is dispatched properly
-				expect(store.getActions()[0]).toEqual(actions.SET_LOGIN)
+				expect(store.getActions()[0].type).toEqual(actions.SET_LOGIN)
 			})
 	});
 	
