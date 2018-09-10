@@ -17,6 +17,7 @@ class SignTrip extends React.Component {
 		this._onButtonClickJoinTrip = (event) => {
 			let tripid = parseInt(event.target.value, 10)
 			this.props.dispatch(joinTrip(this.props.user_id, tripid))
+			document.getElementById('tripid').style.visibility = "hidden";
 		}
 	}
 
@@ -37,7 +38,7 @@ class SignTrip extends React.Component {
 				if (i > 0) {
 					children.push(<td nowrap="true">{crew_names}</td>)
 					if (crew_names.length < this.state.data[i - 1].boat_size) {
-						children.push(<td><button value={this.state.data[i - 1].trip_id} onClick={evt => this._onButtonClickJoinTrip(evt)} >Join Trip</button></td>)
+						children.push(<td><button id={this.state.data[i - 1].trip_id} value={this.state.data[i - 1].trip_id} onClick={evt => this._onButtonClickJoinTrip(evt)} >Join Trip</button></td>)
 					}
 					tbody.push(<tr>{children}</tr>)
 					children = []
