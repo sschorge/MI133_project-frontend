@@ -70,6 +70,14 @@ class SignTrip extends React.Component {
 				names.push(this.state.data[i].first_name + " " + this.state.data[i].last_name)
 				trip_id = this.state.data[i].trip_id
 			}
+
+			if (i === this.state.data.length - 1) {
+				console.log(i)
+				console.log(children)
+				children.push(<td nowrap="true">{crew_names}</td>)
+				children.push(<td><button id={this.state.data[i].trip_id} value={this.state.data[i].trip_id} onClick={evt => this._onButtonClickJoinTrip(evt)} >Join Trip</button></td>)
+				tbody.push(<tr>{children}</tr>)
+			}
 		}
 		table.push(<tbody>{tbody}</tbody>)
 		return table
@@ -88,7 +96,7 @@ class SignTrip extends React.Component {
 		}).then(response => {
 			return response.json()
 		})
-			.then(data => { this.setState({ data: data.trips }) });
+			.then(data => { console.log(data), this.setState({ data: data.trips }) });
 	}
 
 	render() {
