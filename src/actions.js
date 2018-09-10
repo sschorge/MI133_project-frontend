@@ -28,7 +28,7 @@ export const set_end_trip = (end_trip, hide_menue) => ({ type: SET_END_TRIP, pay
 
 export const SET_LOGIN = 'LOGIN'
 export const set_login = (data, daten) => {
-    let user_id = data.user.id;
+    let user_id = data.user;
     let username = daten.username;
     return { type: SET_LOGIN, payload: { username, user_id } }
 }
