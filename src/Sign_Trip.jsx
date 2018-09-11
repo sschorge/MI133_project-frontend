@@ -20,7 +20,7 @@ class SignTrip extends React.Component {
 			} else {
 				this.props.dispatch(joinTrip(this.props.user_id, tripid))
 				this.forceUpdate(function () {
-					let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/view_trips";
+					let url = "http://localhost:3000/view_trips";
 					let daten = { id: "all" };
 					fetch(url, {
 						method: "POST",
@@ -87,7 +87,7 @@ class SignTrip extends React.Component {
 	}
 
 	componentDidMount() {
-		let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/view_trips";
+		let url = "http://localhost:3000/view_trips";
 		let daten = { id: "all" };
 		fetch(url, {
 			method: "POST",

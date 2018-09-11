@@ -96,7 +96,7 @@ class CreateTrip extends React.Component {
 
 	componentDidMount() {
 		let boats = [];
-		fetch('http://rcpoonkk8vbqkyiw.myfritz.net:3000/get_boats')
+		fetch('http://localhost:3000/get_boats')
 			.then(response => { return response.json() })
 			.then(data => {
 				boats = data.map((boat) => {

@@ -17,7 +17,7 @@ class EndTrip extends React.Component {
             let arrival = Math.round(Date.now() / 1000);
             this.props.dispatch(endTrip(arrival, tripid))
             this.forceUpdate(function () {
-                let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/view_trips";
+                let url = "http://localhost:3000/view_trips";
                 let daten = { id: "all" };
                 fetch(url, {
                     method: "POST",
@@ -80,7 +80,7 @@ class EndTrip extends React.Component {
     }
 
     componentDidMount() {
-        let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/view_trips";
+        let url = "http://localhost:3000/view_trips";
         let daten = { id: "all" };
         fetch(url, {
             method: "POST",

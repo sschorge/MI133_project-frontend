@@ -6,7 +6,7 @@ export const set_registration = (bool) => ({ type: SET_REGISTRATION, payload: bo
 
 export const SET_LOGOUT = 'LOGOUT'
 export const set_logout = () => {
-    let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/logout";
+    let url = "http://localhost:3000/logout";
     fetch(url, {
         method: "GET",
         headers: {
@@ -45,7 +45,7 @@ export const set_login = (data, daten) => {
 }
 
 export const requestLogin = (username, password) => async dispatch => {
-    let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/login";
+    let url = "http://localhost:3000/login";
     let daten = { username: username, password: password };
     return fetch(url, {
         method: "POST",
@@ -67,7 +67,7 @@ export const requestLogin = (username, password) => async dispatch => {
 
 export const requestRegister = (username, password, first_name, last_name) => async dispatch => {
     try {
-        let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/register";
+        let url = "http://localhost:3000/register";
         let daten = { username: username, password: password, first_name: first_name, last_name: last_name };
         return fetch(url, {
             method: "POST",
@@ -88,7 +88,7 @@ export const requestRegister = (username, password, first_name, last_name) => as
 
 export const createTrip = (boat_id, crew, latitude, longitude, departure, arrival) => async dispatch => {
     try {
-        let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/create_trip";
+        let url = "http://localhost:3000/create_trip";
         let daten = { boat_id, crew, latitude, longitude, departure, arrival };
         return fetch(url, {
             method: "POST",
@@ -104,7 +104,7 @@ export const createTrip = (boat_id, crew, latitude, longitude, departure, arriva
                 } else {
                     alert("Create Trip failed!")
                 }
-                dispatch(set_create_trip(data.success, data.success))
+                dispatch(set_create_trip(!data.success, !data.success))
             })
     } catch (e) {
         console.error(e)
@@ -113,7 +113,7 @@ export const createTrip = (boat_id, crew, latitude, longitude, departure, arriva
 
 export const joinTrip = (userid, tripid) => async dispatch => {
     try {
-        let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/join_trip";
+        let url = "http://localhost:3000/join_trip";
         let member_id = userid
         let trip_id = tripid
         let daten = { trip_id, member_id };
@@ -136,7 +136,7 @@ export const joinTrip = (userid, tripid) => async dispatch => {
 
 export const startTrip = (departure, tripid) => async dispatch => {
     try {
-        let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/start_trip";
+        let url = "http://localhost:3000/start_trip";
         //let member_id = userid
         let trip_id = tripid
         let daten = { trip_id, departure };
@@ -159,7 +159,7 @@ export const startTrip = (departure, tripid) => async dispatch => {
 
 export const endTrip = (arrival, tripid) => async dispatch => {
     try {
-        let url = "http://rcpoonkk8vbqkyiw.myfritz.net:3000/end_trip";
+        let url = "http://localhost:3000/end_trip";
         //let member_id = userid
         let trip_id = tripid
         let daten = { trip_id, arrival };
@@ -201,4 +201,4 @@ export function checkID(array, member_id) {
     return false;
 }
 
-//http://rcpoonkk8vbqkyiw.myfritz.net:3000/login
+//http://localhost:3000/login

@@ -71,6 +71,7 @@ export default function reducer(state = initialState(), action) {
             }
         }
         case SET_CREATE_TRIP: {
+            console.log(payload)
             return {
                 ...state,
                 trips: {
