@@ -2,7 +2,6 @@ import * as actions from './actions'
 import reducer from './reducer';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import fetch from 'cross-fetch'
 
 const setLoginUser = (user_id, username) => 
 		actions.set_login({ user: user_id }, { username:username });
@@ -11,14 +10,14 @@ const randomString = () => {
 	var text = ""
 	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 
-	for (var i=0;i<20;++i)
+	for (var i=0;i<10;++i)
 		text += possible.charAt(Math.floor(Math.random() * possible.length))
 
 	return text
 }
 
 describe('the app logic', () => {
-	let middlewares, mockStore, initialState, username, user_id = 0, loginSuccessful;
+	let middlewares, mockStore, initialState;
 	
 	beforeAll(() => {
 		middlewares = [ thunk ];
@@ -39,26 +38,6 @@ describe('the app logic', () => {
 				end_trip: false,
 			}   
 		}
-		
-		// First, we need to login a dummy user
-		const store = mockStore({})
-		username = randomString()
-		
-		store.dispatch(actions.requestRegister(username, 'password', 'John', 'Doe'))
-			.then(() => {
-				if (store.getActions()[0].payload.bool) { // registering was successful
-					store.dispatch(actions.requestLogin(username, 'password'))
-						.then(() => {
-							const storeActions = store.getActions()
-							
-							if (storeActions[0].type == actions.SET_LOGIN) 
-								user_id = storeActions[0].payload.user_id
-						})
-				}
-			})
-			.catch(e => {
-				console.error(e)
-			})
 	})
 	
 	it('should return the initial state', () => {
@@ -255,116 +234,66 @@ describe('the app logic', () => {
 	it('should set the logout action', () => {
 		const store = mockStore({})
 		
+		// check, whether the action is dispatched properly
+		store.dispatch({ type: actions.SET_LOGOUT })
+		expect(store.getActions()[0].type).toEqual(actions.SET_LOGOUT)
+		
 		// check, whether the state is changed properly by testing the reducer
-		const newState = reducer(undefined, { type: actions.SET_LOGOUT })
+		const newState = reducer(undefined, actions.set_logout())
 		
 		expect(newState.ui.login).toBeFalsy()
 		expect(newState.user).toEqual('')
 		expect(newState.user_id).toEqual(0)
 	});	
 	
-	it('should request register, login and logout at the backend', () => {
+	it('should request register at the backend', () => {
 		const store = mockStore({})
-		const user = randomString()
 		
 		return store.dispatch(actions.requestRegister(randomString(), 'password', 'John', 'Doe'))
 			.then(() => {
-				const expectedAction = { 
-					type: actions.SET_REGISTRATION, 
-					payload: {bool:true}
-				}
 				// check, whether the action is dispatched properly
-				expect(store.getActions()[0]).toEqual(expectedAction)
-				
-				return store.dispatch(actions.requestLogin(user, 'password'))
-					.then(() => {
-						expect(store.getActions()[0].type).toEqual(actions.SET_LOGIN)
-						
-						return store.dispatch(actions.set_logout())
-							.then(() => {
-								expect(store.getActions()[0].type).toEqual(actions.SET_LOGOUT)
-							})
-					})
+				expect(store.getActions()[0].type).toEqual(actions.SET_REGISTRATION)
 			})
 	});
 	
-	it('should create, start and end a trip at the backend', () => {
+	it('should create a trip at the backend', () => {
 		const store = mockStore({})
 		
-		// We need a user to perform the tests
-		expect(user_id).not.toEqual(0)
-		
-		return fetch("http://localhost:3000/get_boats", {
-				 method: "GET",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				credentials: "same-origin"
+		// Test with the dummy user 'username'
+		return store.dispatch(actions.createTrip(1, ['username'], 50, 50, 1506067538, 1535959524))
+			.then(() => {
+				// check, whether the action is dispatched properly
+				expect(store.getActions()[0].type).toEqual(actions.SET_CREATE_TRIP)
 			})
-			.then(response => { return response.json() })
-			.then(data => {
-				const boats = data.boat
-				
-				// We have to ensure, that at least 1 boat is available for testing
-				expect(boats.length).toBeGreaterThan(0)
-				
-				return store.dispatch(actions.createTrip(boats[0].id, [username], 50, 50, 1506067538, 1535959524))
-					.then(() => {
-						const expectedAction =  { 
-							type: actions.SET_CREATE_TRIP, 
-							payload: {
-								create_trip: true, 
-								hide_menue: true
-							}
-						}
-						// check, whether the action is dispatched properly
-						expect(store.getActions()[0]).toEqual(expectedAction)
-						
-						return fetch("http://localhost:3000/view_trips", {
-							method: "POST",
-							body: JSON.stringify({ id: "all" }),
-							headers: {
-								"Content-Type": "application/json"
-							},
-							credentials: "same-origin"
-						})
-						.then(response => 
-							response.json()
-						)
-						.then(data => { 
-							const trips = data.trips
-							
-							// We have to ensure, that at least 1 trip is available for testing
-							expect(trips.length).toBeGreaterThan(0)
-							
-							return store.dispatch(actions.startTrip(1506067538, trips[0].trip_id))
-								.then(() => {
-									const expectedAction =  { 
-										type: actions.SET_START_TRIP, 
-										payload: {
-											start_trip: true, 
-											hide_menue: true
-										}
-									}
-									// check, whether the action is dispatched properly
-									expect(store.getActions()[0]).toEqual(expectedAction)
-									
-									return store.dispatch(actions.endTrip(1506067600, trips[0].trip_id))
-										.then(() => {
-											const expectedAction =  { 
-												type: actions.SET_END_TRIP, 
-												payload: {
-													end_trip: true, 
-													hide_menue: true
-												}
-											}
-											// check, whether the action is dispatched properly
-											expect(store.getActions()[0]).toEqual(expectedAction)
-										})
-								})
-						})
-					})
-			})
+	});
+	
+	it('should start a trip at the backend', () => {
+		const store = mockStore({})
 		
+		return store.dispatch(actions.startTrip(1506067538, 1))
+			.then(() => {
+				// check, whether the action is dispatched properly
+				expect(store.getActions()[0].type).toEqual(actions.SET_START_TRIP)
+			})
+	});
+	
+	it('should end a trip at the backend', () => {
+		const store = mockStore({})
+		
+		return store.dispatch(actions.endTrip(1506067600, 1))
+			.then(() => {
+				// check, whether the action is dispatched properly
+				expect(store.getActions()[0].type).toEqual(actions.SET_END_TRIP)
+			})
+	});
+	
+	it('should join a trip at the backend', () => {
+		const store = mockStore({})
+		
+		return store.dispatch(actions.joinTrip(1, 1))
+			.then(() => {
+				// check, whether the action is dispatched properly
+				expect(store.getActions()[0].type).toEqual(actions.SET_SIGN_TRIP)
+			})
 	});
 });
